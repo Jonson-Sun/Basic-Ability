@@ -1,2 +1,2 @@
-# C-
+# C++
 Practice and improve
