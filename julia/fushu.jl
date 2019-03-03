@@ -55,5 +55,14 @@ end
 块: begin end ,let end ,do end,
 @debug  "information "
 开启debug信息： JULIA_DEBUG=all
+@which 2+2   : 调用的哪一个方法
+get(字典名，key，默认值)
+字典的迭代方法：
+for （k，v）in dict  #括号不能少
+dump(32) : 查看内容的所有信息
+字典按照键值排序：sort(collect(keys(dict_name)))
+
+
+
 
 =#
