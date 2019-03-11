@@ -67,12 +67,21 @@ repr()  : 串表示
 - log() :e为底数log2() log10()
 - exp() e指数; abs() : 绝对值函数
 - 逐元素: array.*3  sin.(array)
-- diagm() :
-- linspace() :
-- diag():
+- ans: 一个最后计算的值的变量
+- abs(3+4im)  => 5 勾股运算
+## 调用python
+- using PyCall
+- @pyimport scipy.special as special
 
-
-
+##julia 机器学习
+- 元编程——编写用于写代码的代码
+- 大多数的库只提供简单的一组函数和数据结构，而不是给一整套新的编程系统和运行时
+- Python 的语义从根本上让模型级别的并行化和编译到小型设备这两件事变得很困难。
+- 没有几个领域像机器学习这样对语言层面的设计有如此苛刻的要求
+- 机器学习是一个数值计算语言的问题
+- 我们能创造一个把数值、微分、并行作为基本功能，且毋须牺牲传统的编程理念和智慧的系统吗？
+	- 这将是编程语言在接下来十年里需要回答的一个基本问题。
+- Metaprogramming is a programming technique in which computer programs have the ability to treat other programs as their data
 
 ##other 
 - clipboard([1,2,3,4,5])无效  

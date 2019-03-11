@@ -1,0 +1,23 @@
+
+安装命令：
+	curl https://sh.rustup.rs -sSf | sh
+	
+卸载命令：
+	rustup self uninstall
+版本查看：
+	rustc --version
+编译工程：
+	cargo new project_name  --bin
+	cd project_name
+	cargo build
+	cargo run
+	
+资源连接：
+	
+	https://kaisery.gitbooks.io/rust-book-chinese/content/content/Getting%20Started%20%E5%87%86%E5%A4%87.html
+	
+	https://rustwiki.org/zh-CN//rust-by-example/
+
+查看文件内容：
+	od -x main.rs | tail
+	od -d main    | head

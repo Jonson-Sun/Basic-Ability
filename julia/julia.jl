@@ -280,69 +280,52 @@ function part1() #数据结构
 end
 #part1()
 
-function startwith(head,line)
-	#println(line[1],head,line[1]==head)
-	if line[1] == head  #第一个字符相同
-		return true
-	else
-		return false
-	end
-end
-function sub_head(head_list,need2sub='#')
-#使用数字替换掉所有的#
-	count=1
-	for line in head_list
-		line=replace(line, need2sub => "~" )
-		head_list[count]=line
-		count+=1
-	end
-end
-
-function 包装(head_list)
-	local mark_count=1
-	for line in head_list
-		head_list[mark_count]="<a href=\"#chapter-$mark_count\">" * line  *  "</a>  \n"
-		mark_count+=1
-	end
+function thinkjulia()
+	result=trunc(Int64,3.14)
+	result1 =round(pi)
+	result2=parse(Float64,"3.768")
+	println("截断，去掉小数点 ：",result,"---",result1,"---",result2)
+	asd="abcdefghijklmnopqrstuvwxyz" #string是不可变类型不能直接赋值
+	println("片段：",asd[3:6])
+	println(uppercase(asd) )
+	println(findfirst("皇上","保重身体呀皇上！"))
+	println(findnext("皇上","保重身体呀皇上！",5) )  #第三个参数为起始位置
+	@show asd
+	println( occursin("asd","qwefghxcvasdfghj"))
+	#string 不能使用sort ： sort()不改变排序内容本身；sort!()改变排序对象
+	#串转化为数组
+	println(collect(asd[1:10]) )
+	println(split("this is 我",' '))
+	println("array -> string : ",join(["this","is","wo"]," ")  )
+	println("insert 31 at index 4",insert!([1,2,3,5,6],4,31))
+	#error("错误信息输出!")
+	#元组赋值: 
+	a,b,c=1,2,3
+	println("元组赋值:",b)
+	[println(i) for i in zip([1,2,3,4],['a','s','d','g'])]#两个列表长度相同;zip返回值是迭代器
+	#collect(zip())  Dict(zip())
+	#enumerate : 加索引和python中相同
+#随机数
+	println(rand(3) ) #生成三个浮点书	
+	println(rand(Int64,4 )) #生成4整数
+	println(rand(1:100)  )
+	println(rand([1,2,45,6,67,45,187,9898]))  #在数据结构中随机选一个
+	# asd=replace(asd,"a"=>'-')
+	#ispath(pwd())   isdir(pwd())  readdir()  joinpath()  walkdir()
+	#using Test
+	#命名元组: x=(1,2,3,)
 	
-	pushfirst!(head_list,"\n ---  \n ")
-	pushfirst!(head_list,"目录：  ")
-	push!(head_list,"\n ---    \n")
-end
-
-function add_index2markdown()
-#给markdown文件按照头（#）添加目录索引
-	Markdown_file="/home/asen/文档/war.md"
-	mark_count=1  #标记#头的出现次数
-	head_list=[]  #存储头内容
-	new_str=""
-	
-	open(Markdown_file,"r+") do io
-		for line in eachline(io)
-			if length(line) < 2  #避免空行导致的bounderror
-				continue
-			end
-			if startwith('#',line)
-				push!(head_list,line)
-				substr="<a id=\"chapter-$mark_count\"></a>    \n" 
-				new_str *= substr  *   line * '\n'
-				mark_count+=1
-			else
-				new_str *= line  * '\n'
-			end
-		end
-		sub_head(head_list)
-		包装(head_list)
-	end
-	open(Markdown_file,"w") do io
-		for line in reverse(head_list)
-			#println(line)
-			new_str=line * new_str
-		end
-		#print(new_str)
-		write(io,new_str)
-	end
-	println("markdown 文件添加目录（页内索引）完成。")
-end
-#add_index2markdown()  #待优化
+end	
+#@time thinkjulia()
+#=
+块: begin end ,let end ,do end,
+@debug  "information "
+开启debug信息： JULIA_DEBUG=all
+@which 2+2   : 调用的哪一个方法
+get(字典名，key，默认值)
+字典的迭代方法：
+for （k，v）in dict  #括号不能少
+dump(32) : 查看内容的所有信息
+字典按照键值排序：sort(collect(keys(dict_name)))
+=#
 # 实验性的多线程库
