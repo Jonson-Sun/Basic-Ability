@@ -89,23 +89,16 @@ end
 #============================================
 			计算熵（Julia version）232s
 ============================================#
+using PyPlot
 function compute_entropy()
-	#dir_name="/home/asen/asd.txt"
 	dir_name="/media/asen/软件/PROJECT/pynlp/词向量/corpus.txt"
-	str_list=[]
-	word_freq_table=Dict()
+	word_freq_table=Dict{Char,UInt64}()   #时间缩短为57s
 	Global_entropy,all_num=0,0
 	
-	println("读取文件。。。")
+	@info "读取文件。。。"
 	open(dir_name,"r") do F
-		for line in eachline(F)
-			if length(line)<5
-				continue
-			end
+		for line in eachline(F)   #去掉断行检查时间缩短为47s
 			for word in line
-				if word == ' '
-				continue
-				end
 				if word in keys(word_freq_table)
 					word_freq_table[word]+=1
 				else
@@ -115,15 +108,46 @@ function compute_entropy()
 		end
 	end
 	word_num=length(word_freq_table)
-	println("词频表的长度为$word_num")
-	for i in values(word_freq_table)
-		all_num+=i
+	@show "词频表的长度为$word_num"
+	all_num=sum(values(word_freq_table))  #sum 与for 性能相近
+	
+	println("all_num=$all_num 计算熵。。。")
+	P =freq::UInt64 -> freq/all_num
+	entropy= prob::Float64 -> -prob*log2(prob)
+	
+	open("entropy_tmp.txt","w") do io
+		for (k,v) in sort(collect(word_freq_table),by=x->x[2])
+			val1=P(v)
+			val2=entropy(val1)
+			write(io,"$k \t freq  $v  \t 概率：$(val1)  \t 熵：$(val2)  \n")
+			Global_entropy+=val2
+		end
 	end
-	println("计算熵。。。")
-	entropy=freq-> -(freq/all_num)*log2(freq/all_num)
-	for freq_num in values(word_freq_table)
-		Global_entropy+=entropy(freq_num)
-	end
+	@info Global_entropy
+#=
+	Global_entropy=sum(
+	[entropy(P(i)) for i in values(word_freq_table)]) 
+	 #表达方式更紧凑，没有性能提升
 	println("the entropy is : ",Global_entropy)
+	
+	@info ("start plot ...")
+	tmp=[P(i) for i in values(word_freq_table)]
+	plot(tmp)
+	show()
+=#
 end
 @time compute_entropy()
+
+#字典按值排序的方法：sort(collect(dict),by=x->x[2])
+
+
+
+
+
+
+
+
+
+
+
+
