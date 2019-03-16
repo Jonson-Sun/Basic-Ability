@@ -2,9 +2,9 @@
 #=======================================
 	一般来说，我喜欢在较好的语言里找缺点。在糟糕的语言里找优点。
 julia 的缺点：
-	1、无法想C++一样生成一个可执行文件（垃圾回收）
-	2、不习惯使用 if end；for end
-	3、 计数从1开始。英文句号的意思是逐元素调用方法
+	1、无法像C++一样生成一个可执行文件（垃圾回收）
+	2、不习惯使用 end
+	3、计数从1开始。英文句号的意思是逐元素调用方法
 	4、语言比较新,变化较多
 =======================================#
 function called_func_between_files()
@@ -114,7 +114,7 @@ function compute_entropy()
 	println("all_num=$all_num 计算熵。。。")
 	P =freq::UInt64 -> freq/all_num
 	entropy= prob::Float64 -> -prob*log2(prob)
-	
+#=
 	open("entropy_tmp.txt","w") do io
 		for (k,v) in sort(collect(word_freq_table),by=x->x[2])
 			val1=P(v)
@@ -123,6 +123,7 @@ function compute_entropy()
 			Global_entropy+=val2
 		end
 	end
+=#
 	@info Global_entropy
 #=
 	Global_entropy=sum(
@@ -136,14 +137,17 @@ function compute_entropy()
 	show()
 =#
 end
-@time compute_entropy()
+#@time compute_entropy()
 
 #字典按值排序的方法：sort(collect(dict),by=x->x[2])
 
 
+module selfwrite
+import Base.show
+#export function name or type name 
+#macro name  end
 
-
-
+end
 
 
 
