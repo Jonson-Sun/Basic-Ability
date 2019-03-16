@@ -328,4 +328,85 @@ for （k，v）in dict  #括号不能少
 dump(32) : 查看内容的所有信息
 字典按照键值排序：sort(collect(keys(dict_name)))
 =#
+
+
+#======================================
+			给markdown文件添加目录索引
+起因：
+		retext 软件没有[TOC]建立自动索引功能
+======================================#
+function startwith(head,line)
+	#println(line[1],head,line[1]==head)
+	if line[1] == head  #第一个字符相同
+		return true
+	else
+		return false
+	end
+end
+function sub_head(head_list,need2sub='#')
+#使用数字替换掉所有的#
+	count=1
+	for line in head_list
+		line=replace(line, need2sub => "- " )
+		head_list[count]=line
+		count+=1
+	end
+end
+function 包装(head_list)
+	local mark_count=1
+	for line in head_list
+		head_list[mark_count]="<a href=\"#chapter-$mark_count\">" * line  *  "</a>  \n"
+		mark_count+=1
+	end
+	pushfirst!(head_list,"\n ---  \n ")
+	pushfirst!(head_list,"目录：  ")
+	push!(head_list,"\n ---    \n")
+end
+function add_index2markdown(Markdown_file)
+	#给markdown文件按照头（#）添加目录索引
+	mark_count=1  #标记#头的出现次数
+	head_list=[]  #存储头内容
+	new_str=""
+	
+	open(Markdown_file,"r+") do io
+		for line in eachline(io)
+			if length(line) < 2  #避免空行导致的bounderror
+				continue
+			end
+			if startwith('#',line)
+				push!(head_list,line)
+				substr="<a id=\"chapter-$mark_count\"></a>    \n" 
+				new_str *= substr  *   line * '\n'
+				mark_count+=1
+			else
+				new_str *= line  * '\n'
+			end
+		end
+		sub_head(head_list)
+		包装(head_list)
+	end
+	open("tmp.txt","w") do io
+		for line in reverse(head_list)
+			println(line)
+			new_str=line * new_str
+		end
+		#print(new_str)
+		write(io,new_str)
+	end
+	println("markdown 文件添加目录（页内索引）完成。")
+end
+#Markdown_file="/home/asen/文档/笔记.md"
+#add_index2markdown(Markdown_file)  #待优化
+
+
+#字典按值排序的方法：sort(collect(dict),by=x->x[2])
+
+#模块的基本定义方式
+module selfwrite
+import Base.show
+#export function_name or type_name 
+#macro name  end
+
+end
+
 # 实验性的多线程库
