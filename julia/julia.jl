@@ -406,7 +406,8 @@ module selfwrite
 import Base.show
 #export function_name or type_name 
 #macro name  end
-
+asd=[1,2,32,3,4,5,65,7]
+println(asd[end-3:end])
 end
 
 # 实验性的多线程库
