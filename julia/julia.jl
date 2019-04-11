@@ -1,10 +1,25 @@
+
+#附属julia.jl 文件
+#=======================================
+	一般来说，我喜欢在较好的语言里找缺点。在糟糕的语言里找优点。
+julia 的缺点：
+	1、无法像C++一样生成一个可执行文件（垃圾回收）
+	2、不习惯使用 end
+	3、计数从1开始。英文句号的意思是逐元素调用方法
+	4、语言比较新,变化较多
+规则:	
+	All code is bad
+	写看得懂的代码!
+=======================================#
+
+
 #=  
 同像性:语言的文本表示（通常指源代码）与其抽象语法树具有相同的结构
 多分派:根据[调用者本身类型]和[方法参数]共同确定调用方法的
 	结合C的速度与Python的可用性、Ruby的动态性、MATLAB的数学能力和R的统计能力。
 =#
 
-include("fushu.jl")
+#include("fushu.jl")
 #called_func_between_files()
 
 
@@ -318,15 +333,15 @@ function thinkjulia()
 end	
 #@time thinkjulia()
 #=
-块: begin end ,let end ,do end,
-@debug  "information "
-开启debug信息： JULIA_DEBUG=all
-@which 2+2   : 调用的哪一个方法
-get(字典名，key，默认值)
-字典的迭代方法：
-for （k，v）in dict  #括号不能少
-dump(32) : 查看内容的所有信息
-字典按照键值排序：sort(collect(keys(dict_name)))
+	块: begin end ,let end ,do end,
+	@debug  "information "
+	开启debug信息： JULIA_DEBUG=all
+	@which 2+2   : 调用的哪一个方法
+	get(字典名，key，默认值)
+	字典的迭代方法：
+	for （k，v）in dict  #括号不能少
+	dump(32) : 查看内容的所有信息
+	字典按照键值排序：sort(collect(keys(dict_name)))
 =#
 
 
@@ -406,8 +421,36 @@ module selfwrite
 import Base.show
 #export function_name or type_name 
 #macro name  end
-asd=[1,2,32,3,4,5,65,7]
-println(asd[end-3:end])
+	#asd=[1,2,32,3,4,5,65,7]
+	#println(asd[end-3:end])
+#作用域可见性
+	var1="全局变量1"
+	function func2()
+		var3="func2（）变量3"
+		@show "其他函数内部：" var1 
+	end
+	function func()
+		asd=Array{Int,1}([1,2,3,4,78,56])	
+		function func1()
+			var4="func1()变量4"
+			@show "func1()子函数内部：" var1 var2 var4 var5 
+		end
+		var2="func（）变量2"
+		local var5="func（）local 变量5"
+		#全局，local，函数内 ：可见
+		#其他函数内的不可见，包括子函数
+		@show "func函数内部：" var1 var2 var5
+		
+		func1()
+		func2()
+		#数据结构？？
+		return asd
+		
+	end
+qwe=func()
+@show "函数外部" var1 typeof(qwe) #函数内部不可见
+
+	
 end
 
 # 实验性的多线程库
