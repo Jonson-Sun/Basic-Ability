@@ -8,6 +8,7 @@
 	2,分析股市数据
 		暂时处理上证和深证,由于存在时间差,暂不分析港股;
 		统计量使用均值和标准差;(加权的话可能有偏见)
+		给股票加权就是偏见:国企权重高,股市必然稳定
 ==================================#
 import Statistics.std  #标准差
 import Statistics.mean  #均值
@@ -65,7 +66,7 @@ function 实时分析()
 	深证="szdata.txt"
 	list_sh,list_sz=[],[]	
 	
-	for i=1:30
+	for i=1:80  #10次一分钟 ?如何精确控制时间?
 		run(`rm -f shdata.txt`)
 		run(`rm -f szdata.txt`)
 		run(`./download_data.py`)
@@ -84,25 +85,29 @@ function 实时分析()
 	#list_sh=deserialize("tmp_sh")
 	#list_sz=deserialize("tmp_sz")
 end
+实时分析()
 
-
-#import PyPlot.plot  #pyplot太慢
+import PyPlot.plot  #pyplot太慢
 function 展示结果()
 	list_sh=deserialize("tmp_sh")
 	list_sz=deserialize("tmp_sz")
-	plot(list_sh)
+	plot([arr[1] for arr in list_sh])
 	show()
-	plot(list_sz)
+	plot([arr[2] for arr in list_sh])
+	show()
+	plot([arr[1] for arr in list_sz])
+	show()
+	plot([arr[2] for arr in list_sz])
 	show()
 end
-#实时分析()
-#展示结果()
+
+展示结果()
 
 
 
 #===============================================
 	第二部分:
-	
+		进一步分析
 =============================================#
 
 
@@ -135,7 +140,7 @@ function 统计两种价格(文件名,col1=3,col2=4)
 	标准差2=std(价格向量2)
 
 	@info "统计中包含指数变化"
-	#@show 昨日收盘价格向量[rand(1:100)]
+	#@show 价格向量1[rand(1:100)]
 	@show length(价格向量1)
 	@show length(价格向量2)
 		
@@ -155,4 +160,4 @@ function test()
 	
 	@info "函数执行结束"
 end
-test()
+#test()
