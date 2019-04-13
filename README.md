@@ -6,7 +6,7 @@
 1.  go（dir） : go语言的基本语法
 - Julia（dir）：Julia语言的相关内容
 - rust（dir） ： rust语言相关内容
-- 
+- C++ ( dir ) :  C/C++和汇编相关
 - LICENSE ：证书文件
 
 ### 问题&&解决方法:
