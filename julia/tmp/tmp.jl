@@ -1,4 +1,4 @@
-# 本文件为Julia程序设计预言源文件 
+# 本文件为Julia程序设计语言源文件 
 
 #网页冲浪
 function firefox_url(文件名)

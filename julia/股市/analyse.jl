@@ -18,13 +18,16 @@
 		(由于本身包含了相关的指数(上证指数)信息,不再有加权的意义)
 		
 	4,使用PyPlot画图展示结果	
+	
+	5,标准差std计算公式 :sqrt(sum((v.-mean(v)).^2)/(length(v)-1))==std(v)
+		标准库文档中的公式是错的:sqrt(sum((v - mean(v)).^2) /(length(v) - 1))
 ==================================#
-import Statistics.std  #标准差
+import Statistics.std  
 import Statistics.mean  #均值
 import Statistics.median #中位数
 import Serialization.serialize
 import Serialization.deserialize
-
+import Dates.now 
 #=================================
 	画图:
 		展示的图像仍需手动关闭
@@ -35,14 +38,32 @@ import PyPlot.plot  #pyplot严重拖慢启动时间
 function 展示结果()
 	list_sh=deserialize("tmp_sh")
 	list_sz=deserialize("tmp_sz")
-	plot([arr[1] for arr in list_sh])  #上证均值
+	sh_m=[arr[1] for arr in list_sh]
+	sh_s=[arr[2] for arr in list_sh]
+	sz_m=[arr[1] for arr in list_sz]
+	sz_s=[arr[2] for arr in list_sz]
+	
+	plot(sh_m)  #上证均值
 	show()
-	plot([arr[2] for arr in list_sh])	#上证标准差
+	plot(sh_s)	#上证标准差
 	show()
-	plot([arr[1] for arr in list_sz])	#深证均值
+	plot(sz_m)	#深证均值
 	show()
-	plot([arr[2] for arr in list_sz])	#深证标准差
+	plot(sz_s)	#深证标准差
 	show()
+	
+	@info "均值	  最小值	 最大值	 中值	终值   初值"
+	str=""
+	for arr in [sh_m,sh_s,sz_m,sz_s]
+		tmp=round(mean(arr),digits=4),minimum(arr),maximum(arr),
+		median(arr),arr[length(arr)],arr[1]
+		@info tmp
+		str=str*repr(tmp)*"\n"
+	end
+	open("log.txt","a") do io
+		str=str*repr(now())*"\n\n"
+		write(io,str)
+	end
 end
 function 展示结果(list_sh,list_sz)
 	plot([arr[1] for arr in list_sh])  #上证均值
@@ -132,6 +153,8 @@ function 实时分析(运行时间::Float64=60.0)
 		num2=分析股市1(深证)
 		push!(list_sz,num2)
 		
+		sleep(30)
+		
 		t2=time()
 		时长=round((t2-t1)/60)
 		@info "运行时间为$(时长)分钟; 完成操作.$(num1),$(num2)"
@@ -220,3 +243,14 @@ function test()
 	@info "函数执行结束"
 end
 #test()
+
+
+#=============================
+error:
+	Remote end closed connection without"
+	http.client.RemoteDisconnected: 
+		Remote end closed connection without response
+  解决方法 : 减少采样次数:30s一次:2h->240个采样点
+
+
+==========================#
