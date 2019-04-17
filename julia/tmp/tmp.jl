@@ -21,7 +21,7 @@ end
 function filter_url()
 	#过滤掉冗余的url  : 千龙网,北方网...
 	str=""
-	filename="old.txt"
+	filename="tmp.txt"
 	for url in eachline(filename)
 		if occursin("cri",url) continue end
 		if occursin("qq",url) continue end
@@ -84,7 +84,7 @@ function filter_url()
 	close(io)
 	@info "url过滤完毕"
 end
-#filter_url()
+filter_url()
 
 #==========================================
 
@@ -94,13 +94,12 @@ end
 ======================================#
 
 
-#============================================
-utf-8变长编码-> 可直接索引的[]存储?
-  使用方式:
-	substr("阿三科技的符号i阿斯顿飞呢",3,-2)
-	substr("阿三科技的符号i阿斯顿飞呢",3,7)
-========================================#
 
+# utf-8变长编码-> 可直接索引的[]存储?
+# 使用方式:
+#	substr("阿三科技的符号i阿斯顿飞呢",3,-2)
+#	substr("阿三科技的符号i阿斯顿飞呢",3,7)
+	
 function substr(str::String,start_idx::Int,end_idx::Int)
 	#半开半闭区间[start,end) 没法表示索引到结尾
 	#使用[start,end] 更附和julia的原则:从1开始
@@ -198,11 +197,3 @@ end
 			大约3万个网页,
 			格式:书籍编号_章节(2...)
 ========================================#
-
-
-
-
-
-
-
-

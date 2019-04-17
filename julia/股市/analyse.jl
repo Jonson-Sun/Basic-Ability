@@ -18,9 +18,20 @@
 		(由于本身包含了相关的指数(上证指数)信息,不再有加权的意义)
 		
 	4,使用PyPlot画图展示结果	
-	
+		加载太慢!
+		
 	5,标准差std计算公式 :sqrt(sum((v.-mean(v)).^2)/(length(v)-1))==std(v)
 		标准库文档中的公式是错的:sqrt(sum((v - mean(v)).^2) /(length(v) - 1))
+	
+	6,常用计算方法:
+		采样,加权,程序计算
+		
+	7,自注释编码???
+	
+	8,这种简单粗暴的统计方式:
+		因为不同部分获得的比例过大,会影响统计结果,例如成交额
+		沪市的债券,指数所占的比例过大
+		
 ==================================#
 import Statistics.std  
 import Statistics.mean  #均值
@@ -28,13 +39,19 @@ import Statistics.median #中位数
 import Serialization.serialize
 import Serialization.deserialize
 import Dates.now 
+
 #=================================
 	画图:
 		展示的图像仍需手动关闭
 		因此只在结尾调用一次
+	加载PyPlot大约需要21s
 ==============================#
 
 import PyPlot.plot  #pyplot严重拖慢启动时间
+import PyPlot.xlabel
+import PyPlot.ylabel
+import PyPlot.title
+
 function 展示结果()
 	list_sh=deserialize("tmp_sh")
 	list_sz=deserialize("tmp_sz")
@@ -43,13 +60,13 @@ function 展示结果()
 	sz_m=[arr[1] for arr in list_sz]
 	sz_s=[arr[2] for arr in list_sz]
 	
-	plot(sh_m)  #上证均值
+	plot(sh_m,"go--")  #上证均值
 	show()
-	plot(sh_s)	#上证标准差
+	plot(sh_s,"bo--")	#上证标准差
 	show()
-	plot(sz_m)	#深证均值
+	plot(sz_m,"go--")	#深证均值
 	show()
-	plot(sz_s)	#深证标准差
+	plot(sz_s,"bo--")	#深证标准差
 	show()
 	
 	@info "均值	  最小值	 最大值	 中值	终值   初值"
@@ -124,10 +141,14 @@ function 分析股市1(文件名,类型::Int=4)
 	end
 		
 	当前价格向量=获取数据(类型)
+	
 	当前均值=mean(当前价格向量)
-	当前标准差=std(当前价格向量)
-
-	return round(当前均值,digits=4),round(当前标准差,digits=4)
+	#当前标准差=std(当前价格向量)# 意义不大
+	#几何均值=sqrt(sum([x^2 for x in 当前价格向量]))
+	股市的平均变化率=mean(获取数据(4)./获取数据(2)) #当前价格/昨日收盘价格(也可以是今日开盘价)
+	
+		
+	return round(当前均值,digits=4),round(股市的平均变化率,digits=4)
 end
 #==============================================
 
@@ -146,7 +167,12 @@ function 实时分析(运行时间::Float64=60.0)
 	while 时长 < 运行时间  #时间单位为分钟
 		run(`rm -f shdata.txt`)
 		run(`rm -f szdata.txt`)
-		run(`./download_data.py`)
+		try
+			run(`./download_data.py`)
+		catch e
+			@error "下载出错,忽略:$e"
+			continue
+		end
 		
 		num1=分析股市1(上证)
 		push!(list_sh,num1)
@@ -157,7 +183,7 @@ function 实时分析(运行时间::Float64=60.0)
 		
 		t2=time()
 		时长=round((t2-t1)/60)
-		@info "运行时间为$(时长)分钟; 完成操作.$(num1),$(num2)"
+		@info "运行$(时长)分钟;结果:$(num1),$(num2)"
 		
 		#展示结果(list_sh,list_sz) 
 		#去掉上一行的注释"#:  即可展示实时的股市态势
@@ -169,9 +195,9 @@ function 实时分析(运行时间::Float64=60.0)
 	#list_sh=deserialize("tmp_sh")
 	#list_sz=deserialize("tmp_sz")
 end
-实时分析(121.0)
+#实时分析(120.0)
 
-展示结果()
+#展示结果()
 
 
 
@@ -183,41 +209,43 @@ end
 			重复计算意义不大
 	下一步:
 		3.可以在收盘后 统计 最高价-最低价 来计算波动幅度
-		4.可以计算{成交的股票数,成交金额}
-			来统计市场的活跃程度
+			mean(获取数据(5)./获取数据(6))
+			
+		4.可以计算{成交的股票数(9),成交金额(10)}
+			来统计市场的活跃程度:
+			平均每股成交价=mean(获取数据(10)./获取数据(9))
+			
 		5.可以计算{买一->买五,卖一->卖五}
 			来查看人们的购买意愿和卖出意愿
+			
 		6.时间戳信息可以在归档中使用(暂时没用)
 		
 	然后?
 =============================================#
-
+function 获取数据(文件名,列::Int)
+	# 2:昨日收盘价格;
+	# 3:今日收盘价格
+	数据列=[]
+	for 行 in eachline(文件名)
+	  try
+		单数据=split(行,",")
+		tmp= 符数转换(单数据[列])
+		if tmp<0.01 continue end #去掉不变项(变化过小的项)
+		push!(数据列,tmp)
+	  catch e 
+  		@info "出现异常:$(e)"
+  		continue
+  	  end
+	end
+	return 数据列
+end
 
 function 统计两种价格(文件名,col1=3,col2=4)  #实现功能1
-
-	function 获取数据(列::Int)
-		# 2:昨日收盘价格;
-		# 3:今日收盘价格
-		数据列=[]
-		for 行 in eachline(文件名)
-		  try
-			单数据=split(行,",")
-			tmp= 符数转换(单数据[列])
-			if tmp<0.01 continue end #去掉不变项(变化过小的项)
-			push!(数据列,tmp)
-		  catch e 
-	  		@info "出现异常:$(e)"
-	  		continue
-	  	  end
-		end
-		return 数据列
-	end
-		
-	价格向量1=获取数据(col1)
+	价格向量1=获取数据(文件名,col1)
 	均值1=mean(价格向量1)
 	标准差1=std(价格向量1)
 	
-	价格向量2=获取数据(col2) 
+	价格向量2=获取数据(文件名,col2) 
 	均值2=mean(价格向量2)
 	标准差2=std(价格向量2)
 
@@ -233,6 +261,35 @@ function 统计两种价格(文件名,col1=3,col2=4)  #实现功能1
 
 end
 function test()
+	文件名="szdata.txt"
+	tmp_arr=获取数据(文件名,5)./获取数据(文件名,6)
+	
+	plot(tmp_arr,"bo");xlabel("sample");ylabel("x/y");title("market value");show();
+	plot(sort!(tmp_arr));show();
+	
+	tmp=round(mean(tmp_arr)*100-100.0,digits=4)
+	@info "平均价格变化率(百分比):$(tmp) %"
+	
+	tmp=获取数据(文件名,10)./获取数据(文件名,9)
+	平均每股成交价=round(mean(tmp),digits=4)
+	@show 平均每股成交价
+	
+	plot(tmp,"bo-");show();
+	plot(sort!(tmp),"bo-");show();
+	
+	tmp=获取数据(文件名,10)
+	@info "总成交额:$(round(sum(tmp)/10000_0000,digits=4) )亿" #/10000
+	plot(tmp,"bo-");show();
+	plot(sort!(tmp),"bo-");show();
+	
+	tmp=获取数据(文件名,9)
+	@info "总成交数:$(round(sum(tmp)/100_0000,digits=4) )万手" #/100 为手数
+	plot(tmp,"bo-");show();
+	plot(sort!(tmp),"bo-");show();
+	
+	
+	return 
+	
 	@info "测试函数开始执行"
 	上证="sh_finace.txt"
 	深证="sz_finace.txt"
@@ -242,15 +299,18 @@ function test()
 	
 	@info "函数执行结束"
 end
-#test()
+test()
 
 
 #=============================
+
 error:
-	Remote end closed connection without"
+  1.Remote end closed connection without"
 	http.client.RemoteDisconnected: 
 		Remote end closed connection without response
   解决方法 : 减少采样次数:30s一次:2h->240个采样点
 
-
+  2.raise RemoteDisconnected:
+  	解决方法: 通过trycatch 忽略异常情况
+		sina有反拉取机制???
 ==========================#
