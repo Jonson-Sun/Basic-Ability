@@ -60,13 +60,13 @@ function 展示结果()
 	sz_m=[arr[1] for arr in list_sz]
 	sz_s=[arr[2] for arr in list_sz]
 	
-	plot(sh_m,"go--")  #上证均值
+	plot(sh_m,"bo--")  #上证均值
 	show()
-	plot(sh_s,"bo--")	#上证标准差
+	plot(sh_s,"ko--")	#上证
 	show()
-	plot(sz_m,"go--")	#深证均值
+	plot(sz_m,"bo--")	#深证均值
 	show()
-	plot(sz_s,"bo--")	#深证标准差
+	plot(sz_s,"ko--")	#深证
 	show()
 	
 	@info "均值	  最小值	 最大值	 中值	终值   初值"
@@ -130,7 +130,7 @@ function 分析股市1(文件名,类型::Int=4)
 		  try
 			单数据=split(行,",")
 			tmp= 符数转换(单数据[列])
-			if tmp<0.01 continue end #去掉不变项(变化过小的项)
+			#if tmp<0.01 continue end #去掉不变项(变化过小的项)
 			push!(数据列,tmp)
 		  catch e 
 	  		@info "出现异常:$(e)"
@@ -145,10 +145,12 @@ function 分析股市1(文件名,类型::Int=4)
 	当前均值=mean(当前价格向量)
 	#当前标准差=std(当前价格向量)# 意义不大
 	#几何均值=sqrt(sum([x^2 for x in 当前价格向量]))
-	股市的平均变化率=mean(获取数据(4)./获取数据(2)) #当前价格/昨日收盘价格(也可以是今日开盘价)
+	#股市的平均变化率=mean(当前价格向量./获取数据(2))
+	 	#当前价格/昨日收盘价格(也可以是今日开盘价)  维度不匹配???
+	变化率=sum(当前价格向量)/sum(获取数据(2))
 	
 		
-	return round(当前均值,digits=4),round(股市的平均变化率,digits=4)
+	return round(当前均值,digits=4),round(变化率,digits=4)
 end
 #==============================================
 
@@ -195,9 +197,26 @@ function 实时分析(运行时间::Float64=60.0)
 	#list_sh=deserialize("tmp_sh")
 	#list_sz=deserialize("tmp_sz")
 end
-#实时分析(120.0)
 
-#展示结果()
+
+
+
+
+
+实时分析(95.0)
+
+展示结果()
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -261,6 +280,12 @@ function 统计两种价格(文件名,col1=3,col2=4)  #实现功能1
 
 end
 function test()
+	上证="szdata.txt"
+	tmp=分析股市1(上证)
+	@info "(均值,变化率):$tmp"
+
+  return 
+  
 	文件名="szdata.txt"
 	tmp_arr=获取数据(文件名,5)./获取数据(文件名,6)
 	
@@ -288,7 +313,7 @@ function test()
 	plot(sort!(tmp),"bo-");show();
 	
 	
-	return 
+  return 
 	
 	@info "测试函数开始执行"
 	上证="sh_finace.txt"
@@ -299,7 +324,7 @@ function test()
 	
 	@info "函数执行结束"
 end
-test()
+#test()
 
 
 #=============================
