@@ -203,7 +203,7 @@ end
 
 
 
-实时分析(95.0)
+实时分析(121.0)
 
 展示结果()
 
@@ -279,7 +279,15 @@ function 统计两种价格(文件名,col1=3,col2=4)  #实现功能1
 	@show round(标准差2,digits=4)
 
 end
+import Dates.hour
+import Dates.minute
+import Dates.now
 function test()
+	while true
+		if hour(now())==9 && minute(now())==27 run(`julia analyse.jl`);break; end
+		if hour(now())==1 && minute(now())==0  run(`julia analyse.jl`);break; end
+	end
+  return
 	上证="szdata.txt"
 	tmp=分析股市1(上证)
 	@info "(均值,变化率):$tmp"
