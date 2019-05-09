@@ -37,9 +37,16 @@ end
 
 #@time use1_multi()
 =============================#
+function 同步与异步演示()
+	@sync begin
+		for id=1:10
+			@async begin sleep(rand(1:5));@info  "$id is  a thead id";	end
+		end
+		
+	end
+end
 
-
-
+同步与异步演示()
 
 
 
