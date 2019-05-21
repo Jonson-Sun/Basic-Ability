@@ -90,4 +90,76 @@ function test()
 end
 test()
 ```
-###
+
+
+"""
+	寻找勾股数(整数): 3,4,5 .......
+		a,b,c
+		(1) a不变,b(区间遍历)  寻找c 
+				限制:c^2<a^2+b^2
+		(2) a+=1,重复(1)
+		
+"""
+function 寻找勾股数(end_val::BigInt )   #无限大版本
+	 a::BigInt=3;
+	 b::BigInt=3;
+	 c::BigInt=3;
+	区间=100
+	@info "计算勾股整数对 开始......"
+
+	while a < end_val
+		while b<(a+区间)
+			while c< Int(  round(sqrt(a^2+b^2)+1)  )
+				if c^2 ==(a^2+b^2) 
+				#@info "$a 的平方$(a^2) +  $b  平方$(b^2)==$c 的平方$(c^2)"
+					write(io,"$a,$b,$c \n ")
+				end
+				c+=1
+			end
+			b+=1
+			c=b
+		end
+		a+=1
+		b=a
+		flush(io)
+	end
+	@info "计算结束!"
+end
+function 寻找勾股数(end_val::Int)
+	 a=3;
+	 b=3;
+	 c=3;
+	区间=100
+	@info "计算勾股整数对 开始......"
+
+	while a < end_val
+		while b<(a+区间)
+			while c< Int(  round(sqrt(a^2+b^2)+1)  )
+				if c^2 ==(a^2+b^2) 
+					write(io,"$a,$b,$c \n ")
+				end
+				c+=1
+			end
+			b+=1
+			c=b
+		end
+		a+=1
+		b=a
+		rand(1:10)==7 ? flush(io) : continue ;#避免每次都flush,注意?:前后的空格
+	end
+	@info "计算结束!"
+
+end
+
+function 计算大指数(底数::Int,指数::Int) a::BigInt=底数;return a^指数 end
+
+function test()
+	
+	num::BigInt=2^30 #计算大指数(2,100) ;
+	#寻找勾股数(num)
+	寻找勾股数(100_0000)
+end
+
+io=open("tmp1.txt","w+")  #io定义必须放在全局
+@time test()
+close(io)
