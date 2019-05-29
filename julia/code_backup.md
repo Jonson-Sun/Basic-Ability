@@ -1,7 +1,7 @@
 
 # julia 代码备份
 
-### 计算2^1000的按位 加和
+## 计算2^1000的按位 加和
 ![](pict/math_sum.png)
 ```Julia
 function 指数(num::Int,init::Int=2)  #计算指数
@@ -28,7 +28,7 @@ function sum_bigInt()  #计算2^1000的位值加和
 end
 sum_bigInt()  #结果是1366
 ```
-### 有序数据->无序数据
+## 有序数据->无序数据
 
 ```julia
 #
@@ -89,9 +89,10 @@ function test()
 	
 end
 test()
+
 ```
-
-
+## 寻找勾股数
+```julia
 """
 	寻找勾股数(整数): 3,4,5 .......
 		a,b,c
@@ -100,6 +101,8 @@ test()
 		(2) a+=1,重复(1)
 		
 """
+
+
 function 寻找勾股数(end_val::BigInt )   #无限大版本
 	 a::BigInt=3;
 	 b::BigInt=3;
@@ -163,3 +166,125 @@ end
 io=open("tmp1.txt","w+")  #io定义必须放在全局
 @time test()
 close(io)
+```
+##函数调用结构图
+
+```julia
+"""
+				建立函数调用结构图
+				
+	功能:
+		1 获取本目录里的所有文件
+		2 逐个文件进行函数调用关系提取
+		3 将提取出的关系进行dot化
+	缘起:
+		dot的应用方式,
+		手写的话并不比图形化的软件方便
+		
+"""
+
+function build_function_struct_graph()
+
+	function get_path(c::Channel)
+		#默认为本目录
+		for (root,dirs,files) in walkdir(".")  # 1 
+		       for file in files
+		           path=(root*"/"*file)
+		           put!(c ,path)
+		       end
+		end
+	end
+	
+	function 函数内容提取(file_str)  #2.1
+	# 提取出完整的函数内容 如: asd(){   ...   }
+		rx=r"\w+?\(.*?\)\s*?\{(.|\n)*?\}"   
+		#单词边界,word{  ... }  不能有空格
+		#写正则表达式的费力之处:你要覆盖所有的情况
+		#不能多也不能少
+		m=eachmatch(rx,file_str)
+		return collect(m)
+	end
+	function 函数识别(item)  
+		#2.2
+		#识别str中的函数,并返回 函数名列表
+		#形式: a->{b,v,c,,d,s;b->{}}
+	
+		rx=r"\w+?\("
+		m=eachmatch(rx,item)
+		vec= collect(m)
+		repr="\""*(popfirst!(vec).match)*")\"->"
+		for item in vec
+			repr=repr*"\""*(item.match)*")\","
+		end
+		return repr
+	end
+	
+	function get_func_relation(file_path)  #  2
+		relation= ""
+		@info file_path
+		file_str=""
+		for line in eachline(file_path,keep=true)
+			#keep=true :保持换行符号
+			file_str=file_str*line
+		end
+		for item in 函数内容提取(file_str)
+			str_exp=函数识别(item.match)  
+			#item 是Regexmatch类型,item.match存储匹配的字串
+			str_exp=chop(str_exp)   #chop : 去掉末尾的逗号||->
+			relation=relation*(endswith(str_exp,"-") ? chop(str_exp) : str_exp)*";"
+			#chop后有两种情况:->变为-,去掉,号
+		end
+		return relation  #形式: a->b,v,c,,d,s;b->,; a->b,v,c,,d,s;b->{}
+	end
+	
+	function 文件类型确认(file_name)
+		if  !isfile(file_name) return false; end
+		if endswith(file_name,".c") 
+			return true 
+		else 
+			return false
+		end
+	end
+	
+	
+	str_repr=""
+	for path_file in Channel(get_path)
+		if  !文件类型确认(path_file) #去掉配置文件等无关项
+			continue
+		end
+		tmp=get_func_relation(path_file)
+		str_repr=str_repr*"\n"*tmp
+		#break #只执行一个C文件
+	end
+	str_repr="digraph function { \n "*str_repr*"\n }"
+	#@show str_repr
+	
+	#写入文件
+	write("tmp.gv",str_repr)
+	@info "文件写入完成"
+end
+build_function_struct_graph()
+
+#ERROR: LoadError: PCRE.exec error: JIT stack limit reached
+#目录下的文件太多导致
+
+#图像生成命令
+# dot -Tsvg tmp.gv -O
+
+#如何去掉语句
+# if(){} switch(){} ...
+
+```
+### 三个示例:
+- 前三张图片为systemd/src的三个子目录
+- 文件横向太大可能显示异常,可到pict/下的查看src-*.svg
+- 图片本地图片查看器显示异常,可用firefox打开.
+- 第四张图片为纵向简单示例
+
+![](pict/src-import.svg)
+![](pict/src-journal.svg)
+![](pict/src-network.svg)
+
+
+![](pict/src-simple.svg)
+

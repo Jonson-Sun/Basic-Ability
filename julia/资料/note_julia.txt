@@ -38,6 +38,11 @@
 		-.	虚线和点
 		:	点
 
+
+
+
+
+
 ##Base 笔记
 - let var=123  。。code。。 end  #定义局部作用域
 - isnull() && continue  #特殊用法

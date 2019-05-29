@@ -13,4 +13,9 @@
 -  QT无法输入中文?  
 解决方法:<https://www.cnblogs.com/xia-weiwen/p/6857237.html>
 - 
-###
+### 其他
+- 开源字体:
+	- firacode:最佳编程字体
+	- inconsolata:漂亮的等宽字体
+	- dejavu:覆盖了unicode 的绝大不部分
+- 
