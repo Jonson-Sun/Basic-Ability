@@ -11,13 +11,7 @@
 //头文件和实现文件的文件名应保持一致:
 //	filename.h -> filename.cpp
 
-#include<iostream>
-#include<sstream> //stringstream
-#include<string>
-#include <iterator>
-#include <algorithm>
-#include<cassert>
-using namespace std;
+
 //接口 , 声明
 bool bit_used();
 

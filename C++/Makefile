@@ -1,20 +1,22 @@
-#		 -g  调试选项
-#		 -lpthread   多线程选项
+#		-g  调试选项
+#		-lpthread   多线程选项
 #       -static ： 静态链接 
 #       -shared -fpic：动态连接(默认)  适合大型项目
-cc = g++ 
+cc =  g++ 
 cc += -std=c++11
-cc += -O2 
-cc += -static
+#cc += -static
+#cc += -g
+#cc += -Wall  #打开 warning 信息
+#cc += -O2 
 
 objects = main.o
 
 #设置最终可执行文件名
-project_name = 应用.out
+project_name = app.out
 
 
 $(project_name) : $(objects)
-	@$(cc) -o  $(project_name) $(objects) 
+	@$(cc) -o  $(project_name) $(objects) -lpthread
 	@echo 编译成功 !   !   !
 
 main.o : main.cpp head.h
@@ -28,10 +30,17 @@ main.o : main.cpp head.h
 run :
 	./$(project_name)
 	@echo 项目运行完毕
-clean :
+cl  :
 	@rm -f *.o
 	@echo 所有.o文件清理完毕
 cla :
 	@rm -f *.o
 	@rm $(project_name)
 	@echo  "所有编译文件清理完毕 \n  可以重新编译该项目"
+again:
+	clear
+	make cla
+	make 
+	make run
+	
+	

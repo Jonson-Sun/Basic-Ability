@@ -5,8 +5,69 @@
 //时间：2019-4-24
 
 //作者：Sun Jonson
+#include<iostream>
+#include<sstream> //stringstream
+#include<string>
+#include <iterator>
+#include <algorithm>
+#include<cassert>
+using namespace std;
+//===========================================
+//
+//	C++11 学习整理
+//
+//
+//===========================================
+#include<array>
+#include <unordered_map> //hash table实现
+#include <unordered_set> //hash table实现
 
-//内容：:
+int used_auto(int a,int b)  //C++14开始 函数定义返回值也可为auto
+{
+	//int num_arr[]={1,2,3,4,5};
+	array<int,9> num_arr={1,2,3,4,5};  //新数组
+	for(auto num:num_arr)   //新形式的for循环
+	{
+		cout<<num<<" ";
+	}
+	cout<<endl;
+	//lambda表达式
+	auto twoplus=[](int a,int b){return a+b;};
+	return twoplus(a,b);
+}
+
+#include<thread>
+#include<chrono>
+#include<atomic>  //无数据竞争
+//#include<unistd.h>
+void called(){
+	cout<<"函数开始"<<endl;
+	this_thread::sleep_for(chrono::seconds(1));
+	cout<<"函数结束"<<endl;
+} 
+bool multi_thread()  //多线程-static出现断错误
+{
+	thread myth {called};
+	
+	thread myth1{called};
+	myth.join();
+	myth1.join();
+	
+	//myth.detach();
+	//myth1.detach();
+	this_thread::sleep_for(chrono::seconds(5));
+}
+bool test_cpp11()
+{
+	cout<<"lambda's result:"<<used_auto(3,4)<<endl;
+	//cout<<(NULL==0?"NULL是0":"不是0")<<endl;
+	//nullptr : 空指针 类型
+	multi_thread();
+	
+	return true;
+}
+//============================================
+
 
 string itos(int i)	// convert int to string
 {

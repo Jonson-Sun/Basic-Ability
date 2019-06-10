@@ -8,11 +8,14 @@
 
 //内容：
 #include"head.h"
+
+
 int main()
 {
-	cout<<"文件开始执行"<<endl;
-	bit_used();
-	//test();
+	//bit_used();
+	test_cpp11();
+	
+	
 	return 0;
 }
 
