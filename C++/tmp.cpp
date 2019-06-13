@@ -39,6 +39,8 @@ int used_auto(int a,int b)  //C++14开始 函数定义返回值也可为auto
 #include<thread>
 #include<chrono>
 #include<atomic>  //无数据竞争
+#include<future>
+#include<vector>
 //#include<unistd.h>
 void called(){
 	cout<<"函数开始"<<endl;
@@ -57,13 +59,28 @@ bool multi_thread()  //多线程-static出现断错误
 	//myth1.detach();
 	this_thread::sleep_for(chrono::seconds(5));
 }
+int canshu(vector<int>& vec,int x)
+{
+	auto asd=x;
+	for(auto v:vec){
+		asd+=v;
+	}
+	cout<<asd<<"是vecsum;"<<x<<"是长度,等待3s..."<<endl;
+	this_thread::sleep_for(chrono::seconds(3));
+	return asd;
+}
 bool test_cpp11()
 {
-	cout<<"lambda's result:"<<used_auto(3,4)<<endl;
+	//cout<<"lambda's result:"<<used_auto(3,4)<<endl;
 	//cout<<(NULL==0?"NULL是0":"不是0")<<endl;
 	//nullptr : 空指针 类型
-	multi_thread();
+	//multi_thread();
 	
+	int aaa=23;
+	vector<int> vec100={1,2,3,4,5,6,7,8};
+	//auto result_future=async(canshu,ref(aaa));  //传递引用
+	auto result_future=async(canshu,ref(vec100),vec100.size());
+	cout<<result_future.get()<<"是返回的结果"<<endl;
 	return true;
 }
 //============================================
