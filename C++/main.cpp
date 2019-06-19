@@ -12,8 +12,7 @@
 
 int main()
 {
-	//bit_used();
-	test_cpp11();
+	test();
 	
 	
 	return 0;
