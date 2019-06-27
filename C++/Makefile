@@ -2,9 +2,9 @@
 #		-lpthread   多线程选项
 #       -static ： 静态链接 
 #       -shared -fpic：动态连接(默认)  适合大型项目
-cc =  g++ 
+cc =  gcc
 cc += -std=c++11
-#cc += -static
+cc += -static
 #cc += -g
 #cc += -Wall  #打开 warning 信息
 #cc += -O2 
