@@ -3,7 +3,7 @@ function called_func_between_files()
 	#本函数用于julia.jl进行跨文件函数调用
 	println("本文件(fushu.jl)开始执行")
 end
-called_func_between_files()
+#called_func_between_files()
 
 
 #================================
@@ -51,7 +51,7 @@ end
 
 
 
-using PyPlot
+#using PyPlot
 function 粮食产量()
 
 	
@@ -66,4 +66,20 @@ function 粮食产量()
 	legend()
 	show()
 end
-粮食产量()
+#粮食产量()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
