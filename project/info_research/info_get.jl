@@ -1,12 +1,15 @@
 
-#     滚动新闻整理
+#     			滚动新闻整理
 
 #	对网络信息进行 自动 抓取,处理,分析,并生成报告
 
 
 # 1. 下载,提取,归档
-# 2. 
-# 3.
+# 2. 分析想法:
+#		1.按照标签 做 深度学习分类器
+#		2.下载链接 内容到本地,处理html,做 内容摘要
+#		3.
+# 3. 可视化展示
 
 
 
@@ -17,9 +20,7 @@
 #	对 功能1 的代码实现
 #
 #
-
-
-
+#
 function 空文件检测(文件名)
 	if filesize(文件名)<10
 		return true
@@ -109,18 +110,18 @@ function 内容提取(文件名)
 end
 
 
-function 每日归档(str_vec)
+function 数据归档(str_vec,文件名="经济新闻.txt")
 	归档内容="###归档分割标记==============\n"
 	for term in str_vec
 		归档内容=归档内容*term*"\n"
 	end
-	open("经济新闻.txt","a") do io
+	open(文件名,"a") do io
 		write(io,归档内容)
 	end
 end
 
 
-function test()
+function test_1()
 	下载地址="http://roll.eastmoney.com/"
 	文件名="two.html"
 	内容向量=String[]
@@ -129,7 +130,7 @@ function test()
 	# 如果长期运行出错:
 	#	将下面的代码块 添加try..for.end  catch finally 每日归档
 	
-	for i=1:(60*3)  #采样次数
+	for i=1:(60*2)  #采样次数
 		下载信息(下载地址,文件名)
 		str_vec=内容提取(文件名)
 		#去除重复项
@@ -143,9 +144,106 @@ function test()
 		@info "第$(i)次执行等待中 ..."
 		sleep(120)  #采样间隔
 	end
-	每日归档(内容向量)
+	数据归档(内容向量)
 	
 	#三小时,180次采样无差错
 	@info "测试函数运行完成"
 end
-test()
+#test_1()
+
+
+#
+#
+#	本部分功能的相关优化:
+#		1.html格式转换为txt文档格式:
+#			1.去掉所有的<.*>
+#			2.去掉<style>.*</style>
+#			3.去掉<script>.*<.script>
+#
+#		2.提取标签内容的通用函数:
+#			1.get_label_context()
+#			总结:正则表达式的应用场景:格式化的规范文本
+#
+
+function html2txt(文件名)
+	str_tmp=open(f->read(f, String), 文件名)
+	@info "文件字符串的长度为:$(length(str_tmp))"
+	# 去掉所有的css和脚本
+	pattern1=r"<style.+</style>|<script.+</script>"s  #s后缀:.匹配任意字符,包括换行
+	pattern2=r"<.+?>|</.+?>"s
+	tmp=replace(replace(str_tmp,pattern1=>s""),pattern2=>s"")
+	tmp=split(tmp,"\n")
+	
+	str_tmp=""
+	for line in tmp
+		line=lstrip(line)
+		if length(line) ==0 
+			continue
+		else
+			str_tmp=str_tmp*line*"\n"
+		end
+	end
+	# 问题: 没有了\n 
+	# 可以去掉pattern2 后半部分,然后去掉空行
+	# 开头的空格使用 lstrip
+	#@info length(str_tmp)
+	return str_tmp
+end
+function get_label_context(label,str4search)
+	#	按照label名 提取内容
+	# 所提取的标签内容包含label本身,例如:
+	#  <h4>积分卡死了风景啊撒;哦地方</h4>
+	
+	tmp_str="<$label.+?</$label>"
+	pattern=Regex(tmp_str)
+	#@info "正则表达式的模式为:$(pattern)"
+	result=[m.match for m=eachmatch(pattern,str4search)]
+	return result
+end
+function 去标签(str,label="h4")
+	#  使用replace函数 替换label为""(空串)
+	#本来想用split,目前看来replace效果还行
+	#
+	
+	pattern="<$label.*?>|</$label>"
+	pattern=Regex(pattern)
+	result=replace(str,pattern=>s"")
+	#@info "$result \n $str "
+	return result
+end
+function test_优化()
+	str_tmp=html2txt("two.html")
+	open("two.txt","w") do io
+		write(io,str_tmp)
+	end
+return
+	try
+		INFO_URL="https://www.jin10.com/"
+		文件名="jin10.html"
+		#下载信息(INFO_URL,文件名)
+		
+		str_tmp=open(f->read(f, String), 文件名)
+		str_vec=get_label_context("h4",str_tmp)
+		data_vec=String[]
+		for line in str_vec
+			push!(data_vec,去标签(line))
+		end
+		数据归档(data_vec,"进10.txt")
+	finally
+		@info "执行结束"
+	end
+end
+test_优化()
+
+#
+#
+#
+#
+#	功能2 的代码实现
+#
+#
+#
+#
+
+
+

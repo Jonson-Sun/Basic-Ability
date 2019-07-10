@@ -1,10 +1,4 @@
 #!/home/asen/julia110/bin/julia
-function called_func_between_files()
-	#本函数用于julia.jl进行跨文件函数调用
-	println("本文件(fushu.jl)开始执行")
-end
-#called_func_between_files()
-
 
 #================================
 	多进程和多线程 : still need to do
@@ -67,12 +61,6 @@ function 粮食产量()
 	show()
 end
 #粮食产量()
-
-
-
-
-
-
 
 
 

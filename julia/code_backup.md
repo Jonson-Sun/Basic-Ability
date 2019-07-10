@@ -1,9 +1,44 @@
 
 # julia 代码备份
 
+
+
+```julia
+
+# 10年翻了60倍,每年翻多少?
+# n年翻了y倍,每年翻多少(x)?
+
+function 年均增速计算(年数,倍数)
+	base,start=0.0,10.0
+	#@info base,start
+	#二分查找
+	function 比较(x) return (x^年数<倍数 ? true : false) end
+	function 平均(a,b) return (a+b)/2 end
+	while 比较(start) 
+		start*=2
+	end
+	for i=1:20  #精度控制在小数点后四位
+		tmp=平均(base,start)
+		if 比较(tmp)
+			base=tmp
+		else
+			start=tmp
+		end
+		#@info "执行次数$i;取值区间$base ~ $start"
+	end
+	return 平均(base,start)
+end
+@time @info 年均增速计算(10,60)
+@time @info 年均增速计算(3.5,60000)
+@time @info 年均增速计算(20,0.2)
+
+```
+
+
+
 ## 计算2^1000的按位 加和
 ![](pict/math_sum.png)
-```Julia
+```julia
 function 指数(num::Int,init::Int=2)  #计算指数
 	tmp::BigInt=init
     return tmp^num
