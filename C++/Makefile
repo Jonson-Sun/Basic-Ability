@@ -2,9 +2,12 @@
 #		-lpthread   多线程选项
 #       -static ： 静态链接 
 #       -shared -fpic：动态连接(默认)  适合大型项目
-cc =  gcc
+cc =  g++
 cc += -std=c++11
 cc += -static
+cc += -I /home/asen/boost/include
+
+
 #cc += -g
 #cc += -Wall  #打开 warning 信息
 #cc += -O2 
@@ -12,14 +15,14 @@ cc += -static
 objects = main.o
 
 #设置最终可执行文件名
-project_name = app.out
+project_name = boost_app.out
 
 
 $(project_name) : $(objects)
-	@$(cc) -o  $(project_name) $(objects) -lpthread
+	@$(cc) -o  $(project_name) $(objects) # -lpthread
 	@echo 编译成功 !   !   !
 
-main.o : main.cpp head.h
+main.o : main.cpp  boost_used.h
 	@$(cc) -c  main.cpp
 	@echo main.o编译完成
 
@@ -37,10 +40,6 @@ cla :
 	@rm -f *.o
 	@rm $(project_name)
 	@echo  "所有编译文件清理完毕 \n  可以重新编译该项目"
-again:
-	clear
-	make cla
-	make 
-	make run
+
 	
 	

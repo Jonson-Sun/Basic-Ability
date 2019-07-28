@@ -23,7 +23,11 @@
 ![](pict/13两层加噪声.png)
 
 ---
-##平均池化
+### 绘制椭圆
+> julia> plot(map(x->(sqrt(Complex(1-x^2)),-sqrt(Complex(1-x^2))),[i for i=-1:0.01:1]))
+
+
+## 平均池化
 ![](pict/pool1.png  "第一层 (单层)平均池化")
 ![](pict/pool2.png  "第一层 (单层)平均池化")
 ![](pict/pool3.png  "第一层 (单层)平均池化")

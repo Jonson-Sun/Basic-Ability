@@ -17,7 +17,7 @@
 #
 #
 #
-#	对 功能1 的代码实现
+#	本文件为 对 功能1 的代码实现
 #
 #
 #
@@ -123,14 +123,14 @@ end
 
 function test_1()
 	下载地址="http://roll.eastmoney.com/"
-	文件名="two.html"
+	文件名="info_get_tmp.html"
 	内容向量=String[]
 	
 	# 可以设置为半个小时执行一次
 	# 如果长期运行出错:
 	#	将下面的代码块 添加try..for.end  catch finally 每日归档
 	
-	for i=1:(60*2)  #采样次数
+	for i=1:(30*6)  #采样次数
 		下载信息(下载地址,文件名)
 		str_vec=内容提取(文件名)
 		#去除重复项
@@ -140,16 +140,18 @@ function test_1()
 			pushfirst!(内容向量,item)
 		end
 		rm("文件名",force=true)
-		@info "内容向量的长度为 $(length(内容向量))"
-		@info "第$(i)次执行等待中 ..."
-		sleep(120)  #采样间隔
+		@info "当前内容条数为 $(length(内容向量)),第$(i)次执行等待中 ..."
+		sleep(115)  #采样间隔
+		if i%120==0
+			数据归档(内容向量)
+			内容向量=String[]
+		end
 	end
 	数据归档(内容向量)
-	
 	#三小时,180次采样无差错
 	@info "测试函数运行完成"
 end
-#test_1()
+test_1()
 
 
 #
@@ -233,17 +235,9 @@ return
 		@info "执行结束"
 	end
 end
-test_优化()
+#test_优化()
 
-#
-#
-#
-#
-#	功能2 的代码实现
-#
-#
-#
-#
+
 
 
 
