@@ -18,7 +18,7 @@
 #include<boost/algorithm/string.hpp> // split join replace
 #include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
-
+#include <map>
 using namespace std;
 using namespace boost;
 
@@ -71,6 +71,10 @@ bool str_opt()
 	return true;
 }
 //===========================================
+//		utf-8字符串读取与迭代实现
+//
+//
+//===========================================
 #include<fstream>
 vector<string> readlines(string filename)
 {
@@ -78,14 +82,8 @@ vector<string> readlines(string filename)
 	string tmp("");
 	
 	ifstream ifs(filename,ios::in);
-	if(ifs.is_open()){
-		for(;getline(ifs,tmp);){
-			str_vec.push_back(tmp);
-		}
-	}
-	else{
-		str_vec.push_back("打开文件失败!");
-	}
+	if(ifs.is_open()){for(;getline(ifs,tmp);){str_vec.push_back(tmp);}}
+	else{str_vec.push_back("打开文件失败!");	}
 	return str_vec;
 }
 //对应方式
@@ -93,7 +91,7 @@ vector<string> readlines(string filename)
 //    1001   011101   011001           bitstring(38745)[end-15:end]
 
 #include<sstream>
-vector<string> line_iter(string sentence,map<unsigned int,string> &utf8table)
+vector<string> line_iter(string sentence,map<unsigned int,string> &utf8table)//utf8串转换为字符向量：方法1
 {
 	vector<string> line;
 	if(sentence.empty()==true){return line;} //待识别句子内容为空
@@ -140,14 +138,35 @@ vector<string> line_iter(string sentence,map<unsigned int,string> &utf8table)
 			cout<<"异常值"<<endl;
 		}
 		//数符转换
-		//1.自己建立转换表
+		//1.自己建立转换表[choose this]
 		//2.使用系统的映射表
 		line.push_back(utf8table[val]);
 		i++;
 	}
 	return line;
 }
-#include <map>
+vector<string> line2vec(string& sentence)//utf8串转换为字符向量：方法2
+{
+	vector<string> line;
+	if(sentence.empty()==true){return line;} //待识别句子内容为空
+	
+	int 	i=0;
+	string	 tmp="";
+	unsigned int  val=0;
+	
+	for(auto x:sentence){
+		unsigned char item=(unsigned char)x;//不转换也行，直接负数比较。也可以使用位操作
+			 if((0<item)    && (item<128)){val=1;} 
+		else if((128<=item) && (item<192)){i++;continue;}
+		else if((192<=item) && (item<224)){val=2;}
+		else if((224<=item) && (item<240)){val=3;}
+		else if((240<=item) && (item<248)){val=4;}
+		else{cout<<"异常值"<<endl;}//异常情况 0~-8
+		line.push_back(sentence.substr(i,val) );  //此处不进行符数转换，直接切分
+		i++;
+	}
+	return line;
+}
 void num2char(map<unsigned int,string> &utf8table)
 {
 	vector<string> u_vec=readlines("utf8.txt");
@@ -169,22 +188,33 @@ void num2char(map<unsigned int,string> &utf8table)
 bool read_iter_utf8(string filename)
 {	//构建utf8 数符映射
 	map<unsigned int,string> utf8table;
-	num2char(utf8table);
+	//num2char(utf8table);
 	//读取utf8文件的每一行到string向量中
 	//迭代显示每一个 字
-	vector<string> lines=readlines(filename);
-	vector<string> line=line_iter(lines[2],utf8table);
+	//vector<string> lines=readlines(filename);
+	//vector<string> line=line_iter(lines[2],utf8table);
+	string tmp="阿喀琉斯12465的纪念封i啊色道错sadklfjhnv年";
+	vector<string> line=line2vec(tmp);
 	for(string x:line){
-		cout<<x<<endl;//为啥必须有endl??????
+		//cout<<x<<endl;//为啥必须有endl??????
+		cout<<x<<" ";
 	}
 	cout<<endl;
-	cout<<"索引使用"<<line[2]<<'\t';
+	cout<<"\n索引使用:"<<line[2]<<'\n';
 	return true;
 }
+
+
+
+
+
+
+
+
 void test()
 {
 	//str_opt();
-	read_iter_utf8("tmp.txt");
-	//num2char();
+	//read_iter_utf8("tmp.txt");
+	
 }
 #endif
