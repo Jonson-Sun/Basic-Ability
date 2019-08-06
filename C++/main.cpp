@@ -7,12 +7,13 @@
 //作者：Sun Jonson
 
 //内容：
-//#include"head.h"
+#include"head.h"
 #include"boost_used.h"
 
 int main()
 {
 	test();
+	app();
 	return 0;
 }
 

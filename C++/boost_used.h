@@ -11,23 +11,11 @@
 
 
 #include<iostream>
-#include<string>
-#include<boost/algorithm/string_regex.hpp>
-#include <boost/regex.hpp>
-
+//#include<boost/algorithm/string_regex.hpp>
+//#include <boost/regex.hpp>
 using namespace std;
-using namespace boost;
-//====================================================
-//		boost 的 相关库
-//
-//	Range
-//
-//	
-//	
-//
-//==================================================== 
-
-
+//使用boost_regex，并添加-lboost_regex，启用-lpthread
+//coroutine2: -lboost_context
 
 
 
@@ -36,10 +24,10 @@ using namespace boost;
 //
 void test()  
 {
+	//Regex
+ 
 	
-	//Regex，tokens，wave，Xpressive
-	//Safe Numerics，Multiprecision Chrono
-	//thread mpi，log，hof，gil，graph，beast
-	//Filesystem,core，Fiber
+	//猛虎在深山，百兽震恐，及在槛阱之中，摇尾而求食，积威约之渐也...积威约之势也
+	
 }
 #endif
