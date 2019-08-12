@@ -1,7 +1,9 @@
 
 # julia 代码备份
 
-
+$$e^{ix}=cos(x)+isin(x)$$
+傅立叶变换的公式:
+$$X_k=\sum^{N-1}_{n=0} x_n \times e^{-i2\pi kn/N}$$
 
 ```julia
 

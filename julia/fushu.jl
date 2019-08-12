@@ -177,3 +177,45 @@ function 图片信息()
     end
 	
 end
+
+
+#
+#	使用递归方式的傅立叶函数
+# 1.递归一次,表达式增加一项
+# 2.复数表示:complex(x,y);数据存储使用 字典
+# 3.正样本标注:分词:只标记词语的结束
+#
+#问题:
+#	如何形成表达式?
+#
+
+"""
+asd=Dict(1=>2,3=>4)
+	for(x,y) in asd
+       @info complex(x,y)
+    end
+
+	sum(Xn*exp(-im*2*pi*k*n/N))
+
+function 表达式(当前深度=0,最大深度=10)
+		当前深度+=1
+		if 当前深度<最大深度
+			
+		end
+		表达式(当前深度)
+	end
+
+
+"""
+function 万能表示函数(深度=10)
+	参数=[] #n
+	for i=1:深度
+		push!(参数,(rand(-10:10),rand(-10:10),i))
+	end
+	result=0
+	for (a,b,c) in 参数
+		result+=a*exp(-2π*b*im/深度)
+	end
+	
+end
+
