@@ -19,9 +19,18 @@
 //	不再包含 #include"head.cpp"
 //#include"other_filename.cpp"
 
-
-bool app();
-
+#include<iostream>
+#include<fstream>
+#include<vector>
+#include<string>
+using namespace std;
+//utf8 文本切片
+vector<string> line2vec(string& sentence);
+//文本读写
+vector<string> readlines(string filename);
+bool writelines(vector<string> str_vec,string filename);
+//日志
+bool log_add(string log_info,bool write2file=false);
 
 #endif
 

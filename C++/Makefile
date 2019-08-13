@@ -10,17 +10,17 @@ cc += -Wall  #打开所有的 warning 信息{Warn all}
 #cc += -O2   #代码编译优化
 cc =  g++
 cc += -std=c++11
-#cc += -static   
-#cc += -I /home/asen/boost/include
-#cc += -L /home/asen/boost/lib 
+cc += -static   
+cc += -I /home/asen/boost/include
+cc += -L /home/asen/boost/lib 
 
 
 #编译的后置选项
-post_opt= -lpthread  
+post_opt= 
 #编译出的中间结果 *.o
 objects = main.o head.o
 #设置最终可执行文件名
-project_name = app.out
+project_name = app
 
 
 
