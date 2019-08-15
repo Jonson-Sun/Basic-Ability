@@ -3,7 +3,7 @@
 #		-lpthread   多线程选项
 #       -static ： 静态链接 : 文件会很大2.3m->9.1k
 #       -shared -fpic：动态连接(默认)  适合大型项目
-
+icon = /usr/share/icons/Humanity/apps/32/addressbook.svg
 
 
 cc += -Wall  #打开所有的 warning 信息{Warn all}
@@ -30,8 +30,7 @@ project_name = app
 
 $(project_name) : $(objects)
 	@$(cc) -o  $(project_name) $(objects) 	$(post_opt)
-	@echo [make]编译成功 !   !   !
-
+	@notify-send -i "$(icon)" "[make] " "编译成功 !   !   !"
 main.o : main.cpp
 	@$(cc) -c  main.cpp
 
@@ -47,19 +46,21 @@ head.o :
 
 
 #运行应用,清理无关项
+
 .PHONY : clean  cla run
 run :
 	@./$(project_name)
-	@echo [make run]项目运行完毕
+	@notify-send -i "$(icon)" "[make run]" "项目运行完毕"
 cl  :
 	@rm -f *.o
-	@echo [make cl].o文件清理完毕
+	@notify-send -i "$(icon)" "[make cl]" .o文件清理完毕
 cla :
 	@rm -f *.o
 	@rm $(project_name)
-	@echo [make cla]清理完毕
+	@notify-send -i "$(icon)" "[make cla]" 清理完毕
 # 
-#
-#	本文件结束
-#
+#将bash 输出转换 为 系统通知
+#	notify-send -i $icon  "[标题:$USER]" " 消息:AAAAAAAAAA"
+#	icon = /usr/share/icons/Humanity/apps/32/application-community.svg
+#		   | addressbook.svg | clock.svg | bash.svg |user-info.svg
 #
