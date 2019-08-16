@@ -37,6 +37,27 @@ bool get_video_url()
 	//log_add("结束",true);
 	return true;	
 }
+
+//
+// 建立模型的输入和输出的数据[分词]
+//1.输入:字符->数字 one-hot
+//2.输出:有空格为0,否则1
+//3.模型即为one-hot到bool序列的映射
+//
+bool build_data()
+{
+	
+
+	return true;
+}
+//
+//	模型:傅立叶变换
+//
+//
+//
+
+
+
 //
 //	本文件内容的测试函数
 //
@@ -52,4 +73,12 @@ void test()
 //include/boost/range/begin.hpp:114:61: 
 //	error: no type named ‘type’ in ‘struct boost::range_iterator
 // no solution
+
+
+
+
+
+
+
+
 

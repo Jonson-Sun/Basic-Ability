@@ -9,6 +9,17 @@
 
 ---
 ##  2019
+
+---
+- 时间:timedatectl:时钟同步
+	- time:程序运行时间
+	- timeout:类似time
+	- times: 获取进程时间
+	- time-admin: 时间管理工具(GUI)
+- 发送桌面通知:
+	-  notify-send -i 图标路径  "主题" "内容"
+---
+
 - usb:
 	- 安装usbrelay,usbauth,usbview
 	- 卸载usbauth,usbview
