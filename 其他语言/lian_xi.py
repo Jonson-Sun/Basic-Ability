@@ -1,6 +1,66 @@
 #！ -*- utf8 -*-
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+def 四叶草():
+	x = np.arange(0.0, 50.0, 2.0)
+	y = x ** 1.3 + np.random.rand(*x.shape) * 30.0
+	s = np.random.rand(*x.shape) * 800 + 500
+
+	plt.scatter(x, y, s, c="g", alpha=0.5, marker=r'$\clubsuit$',
+				label="Luck")
+	plt.xlabel("Leprechauns")
+	plt.ylabel("Gold")
+	plt.legend(loc='upper left')
+	plt.show()
+
+def 工具栏():
+	fig, axs = plt.subplots(2, 2)
+
+	axs[0, 0].imshow(np.random.random((100, 100)))
+
+	axs[0, 1].imshow(np.random.random((100, 100)))
+
+	axs[1, 0].imshow(np.random.random((100, 100)))
+
+	axs[1, 1].imshow(np.random.random((100, 100)))
+
+	plt.subplot_tool()
+	plt.show()
+
+	
+def 公式():
+	fig, ax = plt.subplots()
+
+	ax.plot([1, 2, 3], 'r', label=r'$\sqrt{x^2}$')
+	ax.legend()
+
+	ax.set_xlabel(r'$\Delta_i^j$', fontsize=20)
+	ax.set_ylabel(r'$\Delta_{i+1}^j$', fontsize=20)
+	ax.set_title(r'$\Delta_i^j \hspace{0.4} \mathrm{versus} \hspace{0.4} '
+				 r'\Delta_{i+1}^j$', fontsize=20)
+
+	tex = r'$\mathcal{R}\prod_{i=\alpha_{i+1}}^\infty a_i\sin(2 \pi f x_i)$'
+	ax.text(1, 1.6, tex, fontsize=20, va='bottom')
+
+	fig.tight_layout()
+	plt.show()
+	
+公式()
+
+
+
+
+
+
+
+
 '''
-	本文对文本进行分词
+	对文本进行分词
 
 '''
 
@@ -24,7 +84,7 @@ def test():
 		io.write(result_str)
 	print("文件分词完成!")
 
-test()
+#test()
 
 
 

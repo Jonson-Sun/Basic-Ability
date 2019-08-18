@@ -55,16 +55,18 @@ bool build_data()
 //
 //
 //
-
-
+bool fft_model()
+{
+	return true;
+}
 
 //
 //	本文件内容的测试函数
 //
 void test()  
 {
-
-	get_video_url();
+	
+	//get_video_url();
 	//猛虎在深山，百兽震恐，及在槛阱之中，摇尾而求食，积威约之渐也...积威约之势也
 	
 }

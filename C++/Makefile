@@ -7,16 +7,16 @@ icon = /usr/share/icons/Humanity/apps/32/addressbook.svg
 
 
 cc += -Wall  #打开所有的 warning 信息{Warn all}
-#cc += -O2   #代码编译优化
+cc += -O2   #代码编译优化
 cc =  g++
 cc += -std=c++11
-cc += -static   
+#cc += -static   
 cc += -I /home/asen/boost/include
 cc += -L /home/asen/boost/lib 
 
 
 #编译的后置选项
-post_opt= 
+post_opt= -lpthread
 #编译出的中间结果 *.o
 objects = main.o head.o
 #设置最终可执行文件名
@@ -49,6 +49,7 @@ head.o :
 
 .PHONY : clean  cla run
 run :
+	@notify-send -i "$(icon)" "[make run]" "项目开始运行"
 	@./$(project_name)
 	@notify-send -i "$(icon)" "[make run]" "项目运行完毕"
 cl  :

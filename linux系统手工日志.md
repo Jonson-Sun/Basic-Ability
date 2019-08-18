@@ -4,12 +4,30 @@
 [TOC]
 
 ---
+##经验
 - 文件操作前先备份！！！！！！！！！
-- ?
+- 长期运行的程序一定要有进度提示{file,terminal,notify均可}
+- 
 
 ---
 ##  2019
 
+
+
+
+
+- 基本系统操作
+	- / 目录下有61_2999个文件,70678个目录  [不包括无妨问权限的]
+	- last reboot || last shutdown :查看重启,关机日志
+	- iftop -i 网络名 {可以用ifconfig得到}
+	- shred : 安全删除文件
+	- 系统上的语言环境列表: locale -a
+---
+- linux系统启动分析:systemd-analyze
+	- systemd-analyze :时间分析
+	- systemd-analyze blame:启动时长统计
+	- systemd-analyze dot >file.dot
+	- systemd-analyze plot >file.svg //使用浏览器打开
 ---
 - 时间:timedatectl:时钟同步
 	- time:程序运行时间
@@ -427,4 +445,37 @@ linux 下 firefox安装flash player
 	编辑crontab，输入 crontab -e；
 	删除crontab，输入 crontab -r
 ---
+## 补录
+--------
+- 2017-10-6 下午
+-命名及去除重命名
+	- alias cls=clear
+	- alias la='ls -la'
+	- unalias cls
+-----------------------------------
+### 不要在系统目录使用{否则会宕机}
+- 删除空目录
+	- find -type d -empty | xargs -n 1 rm -d
+- 删除空文件
+	- find -type d -empty | xargs -n 1 rm -f
+- 查找空目录
+	- find -type d -empty
+- 查找空文件并删除空文件
+	- find . -name "*" -type f -size 0c | xargs -n 1 rm -f
+- Man Page Sections:
+	-     man1/ Section 1: General commands
+	-     man2/ Section 2: System calls
+	-  man3/ Section 3: Library functions
+	-     man4/ Section 4: Special files
+	-     man5/ Section 5: File formats and conventions
+	-     man6/ Section 6: Games and screensavers
+	-     man7/ Section 7: Miscellaneous
+	-     man8/ Section 8: System administration commands and daemons
+	- ***************
+- gprof 分析工具
+
+
+---
+
+
 #end
