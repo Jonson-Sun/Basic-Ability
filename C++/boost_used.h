@@ -52,7 +52,7 @@ bool build_data()
 }
 //
 //	模型:傅立叶变换
-//
+//	连杆系统:由于各种曲线都能用代数曲线近似地描述，因此连杆系统几乎可以视为万能的了
 //
 //
 bool fft_model()
@@ -60,11 +60,15 @@ bool fft_model()
 	return true;
 }
 
+
+
 //
-//	本文件内容的测试函数
+//	本文件的测试函数
 //
+#include <boost/timer/timer.hpp>
 void test()  
 {
+	timer::auto_cpu_timer t;  //静态编译时启用
 	
 	//get_video_url();
 	//猛虎在深山，百兽震恐，及在槛阱之中，摇尾而求食，积威约之渐也...积威约之势也
@@ -75,9 +79,6 @@ void test()
 //include/boost/range/begin.hpp:114:61: 
 //	error: no type named ‘type’ in ‘struct boost::range_iterator
 // no solution
-
-
-
 
 
 
