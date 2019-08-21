@@ -20,7 +20,7 @@ post_opt= -lboost_timer -lboost_chrono
 #编译出的中间结果 *.o
 objects = main.o head.o
 #设置最终可执行文件名
-project_name = huiwen
+project_name = app
 
 
 

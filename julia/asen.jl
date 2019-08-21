@@ -63,56 +63,51 @@ function str2BigInt(str::String)
 	#return big"1234645675643523412423123456457"
 end
 
-#
-#	3x+1 问题
-#从任意一个正整数开始，重复对其进行下面的操作：
-#	如果这个数是偶数，把它除以 2 ；
-#	如果这个数是奇数，则把它扩大到原来的 3 倍后再加 1 。
-#	序列是否最终总会变成 4, 2, 1, 4, 2, 1, … 的循环？
-#{不是任意正整数,还要大于三}
-#{意味着所有的tmp都不能是2^n}
-#问题转换{2^n在上述规则{相反}下,能不能覆盖所有的正整数?}
-#
-function ulam_quest(tmp::BigInt)
-	i::Int=1
-	while tmp!=1 #只要出现1就会421循环
-		if tmp%2==1 
-			tmp=3*tmp+1
-		else
-			tmp/=2
-		end
-		#print("$tmp ")
-		if i > 10000_0000_0000
-			@info "循环超过万亿"
-			return false
-		else
-			i+=1
-		end
-	end
-	return true
-end
+using PyPlot
 
-#=============================================
-		本文件的测试函数
-	注意:所有的测试函数都应该有进度条
-=========================================#
-function test()
-	count=1
-	start=1_0000_0000
-	endp =2_0000_0000
-	for i=start:endp
-		num::BigInt=i
-		if ulam_quest(num)
-			#print("\n $num Y")
-			#println()
-		else 
-			print("\n $num N")
-			break
-		end
-		if i%(endp/100)==0 @info "$count %";count+=1; end
-	end
-return true
+function huatu2()
+	#绘制二元二次方程
+	X=range(-5,5,length=100)
+	Y=range(-5,5,length=100)
 	
+	function Z_calcular(X,Y)
+		a=length(X)
+		b=length(Y)
+		@show a,b
+		Z=[]
+		for x in X
+			for y in Y
+				push!(Z,(17*x^2+7*y^2-16*x*y-225))	
+			end
+		end
+		return reshape(Z,a,b)
+	end
+
+	Z=Z_calcular(X,Y)
+	@info size(Z)
+	#@show Z
+	
+	contour(X,Y,Z,levels=10)#levels:设置层数
+	show()
+end
+huatu2()
+
+function huatu1()
+	title("十字坐标轴")
+	plot(-10:20,[sin(i) for i=-10:20])
+	
+	ax = plt.gca()
+	ax.spines["top"].set_color("none")
+	ax.spines["right"].set_color("none")
+	ax.spines["left"].set_position(("data",0))
+	ax.spines["bottom"].set_position(("data",0))
+	
+	show()
+end
+#huatu1()
+
+function test()
+		
 	substr("阿三科技的符号i阿斯顿飞呢",3,-2)
 	substr("阿三科技的符号i阿斯顿飞呢",3,7)
 
@@ -123,7 +118,7 @@ return true
 	@show str2BigInt(str2int_str(asd))
 	@show str2BigInt("123343245e")
 end
-test()
+#test()
 
 #解方程 cos2x + cos22x + cos23x = 1 (1962年国际数学奥林匹克IMO第4题)
 #答案 pi/4
