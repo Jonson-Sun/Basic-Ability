@@ -63,48 +63,8 @@ function str2BigInt(str::String)
 	#return big"1234645675643523412423123456457"
 end
 
-using PyPlot
 
-function huatu2()
-	#绘制二元二次方程
-	X=range(-5,5,length=100)
-	Y=range(-5,5,length=100)
-	
-	function Z_calcular(X,Y)
-		a=length(X)
-		b=length(Y)
-		@show a,b
-		Z=[]
-		for x in X
-			for y in Y
-				push!(Z,(17*x^2+7*y^2-16*x*y-225))	
-			end
-		end
-		return reshape(Z,a,b)
-	end
 
-	Z=Z_calcular(X,Y)
-	@info size(Z)
-	#@show Z
-	
-	contour(X,Y,Z,levels=10)#levels:设置层数
-	show()
-end
-huatu2()
-
-function huatu1()
-	title("十字坐标轴")
-	plot(-10:20,[sin(i) for i=-10:20])
-	
-	ax = plt.gca()
-	ax.spines["top"].set_color("none")
-	ax.spines["right"].set_color("none")
-	ax.spines["left"].set_position(("data",0))
-	ax.spines["bottom"].set_position(("data",0))
-	
-	show()
-end
-#huatu1()
 
 function test()
 		
@@ -120,36 +80,7 @@ function test()
 end
 #test()
 
-#解方程 cos2x + cos22x + cos23x = 1 (1962年国际数学奥林匹克IMO第4题)
-#答案 pi/4
 
-#湍流，又称为乱流、紊流或扰流
-#当流速很小时，流体分层流动，互不混合，称为层流
-
-#曲线的内接正方形
-# 证明或推翻，在平面中的任意一条简单封闭曲线上，总能找到四个点，它们恰能组成一个正方形。
-
-
-#环形跑道难题
-#有一个环形跑道，总长为 1 个单位。n 个人从跑道上的同一位置出发，沿着跑道顺时针一直跑下去。每个人的速度都是固定的，但不同人的速度不同。证明或推翻，对于每一个人，总会有一个时刻，他与其他所有人的距离都不小于 1/n
-
-#排序问题加强版
-#有 n 个盒子，从左至右依次编号为 1, 2, …, n 。第 1 个盒子里放两个编号为 n 的小球，第 2 个盒子里放两个编号为 n – 1的小球，以此类推，第 n 个盒子里放两个编号为 1 的小球。每一次，你可以在相邻两个盒子中各取一个小球，交换它们的位置。为了把所有小球放进正确的盒子里，最少需要几次交换？
-
-#多面体的展开
-#证明或推翻，总可以把一个凸多面体沿着棱剪开，展开成一个简单的平面多边形。
-
-#用平面镜拼成的多边形
-# 证明或推翻，对于任意一个内壁全是镜面的多边形，总能在里面找到一个点，使得位于这个点的光源可以照亮整个多边形内部
-
-#Thrackle 猜想
-#如果一个图中，每条边都与其它所有边相交恰好一次（顶点处相接也算相交），这个图就叫做一个 thrackle 。问，是否存在边数大于顶点数的 thrackle 图？
-
-#Venn 图
-#是否随便什么样的 n 个集合的 Venn 图都可以扩展到 n + 1 个集合{的venn图}呢
-
-
-#令 U 是一个有限集，S1 , S2 , … , Sn 都是 U 的非空子集，它们满足任意多个集合的并集仍然在这些集合里。证明，一定能找到某个元素，它出现在了至少一半的集合里。
 
 
 

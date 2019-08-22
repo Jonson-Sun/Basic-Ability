@@ -37,18 +37,14 @@ function 同步与异步演示()
 		for id=1:10
 			@async begin sleep(rand(1:5));@info  "$id is  a thead id";	end
 		end
-		
 	end
 end
-
 #同步与异步演示()
 
 
 
 #using PyPlot
 function 粮食产量()
-
-	
 	title("美国经济危机")
 	年份=1783:2019
 	危机=[1825,1837,1847,1857,1866,1873,1882,1890,1900,1907, 
@@ -88,16 +84,10 @@ function 先验公式(a,b,c)
 end
 function 先验公式(a,b)
 	result(x)=(a*x+b)
-
 	return result
 end
-
-function 距离测量()
-
-end
-function 修正公式参数()
-
-end
+function 距离测量()end
+function 修正公式参数()end
 function 查看曲线图像()
 	# 验证神经网络是一个多级非线性函数
 	x=rand(Int32,100)
@@ -136,9 +126,7 @@ function 查看曲线图像()
 		show()
 	end
 end
-function test()
-	查看曲线图像()
-end
+function test() 查看曲线图像() end
 #test()
 
 # 为什么x,y十分相似?????
@@ -216,6 +204,91 @@ function 万能表示函数(深度=10)
 	for (a,b,c) in 参数
 		result+=a*exp(-2π*b*im/深度)
 	end
-	
 end
 
+
+
+
+
+
+
+function matrix67()
+	table=Dict('1'=>1,'2'=>2,'3'=>3,'4'=>4,'5'=>5,
+			   '6'=>6,'7'=>7,'8'=>8,'9'=>9,'0'=>0)
+	
+	function position_sum()
+		#串化
+		str_tmp=string(num)
+		num=0
+		for iter in str_tmp
+			num+=table[iter]
+		end
+		return num #返回按位加和
+	end
+	function single_calculer()#单步计算
+		if(num%2==0)
+			num=(position_sum())^2
+		else
+			num=(position_sum())^3
+		end
+		return num
+	end
+	function count()#计算次数
+		count_num=0
+		while true
+			num=single_calculer()
+			#@info num
+			if num==1 || count_num>9
+				break
+			end
+			count_num+=1
+		end
+		return count_num
+	end
+	
+	num=10_0000_0000  #488,from2+
+	endp=100_0000_0000
+	calculer=0
+	tmp1=num
+	while(num<endp)  #待检验的数值区间
+		if(num%3!=0 && num%2==0)
+			tmp=count()
+			if tmp>9  @info "异常值: $num ;次数为 $tmp "	end
+		end
+		tmp1+=1
+		num=tmp1
+		if tmp1%((endp-num)/100)==0
+			calculer+=1
+			@info "进度: $calculer % num is $num"
+		end
+	end
+end
+matrix67()
+
+#湍流，又称为乱流、紊流或扰流
+#当流速很小时，流体分层流动，互不混合，称为层流
+
+#曲线的内接正方形
+# 证明或推翻，在平面中的任意一条简单封闭曲线上，总能找到四个点，它们恰能组成一个正方形。
+
+
+#环形跑道难题
+#有一个环形跑道，总长为 1 个单位。n 个人从跑道上的同一位置出发，沿着跑道顺时针一直跑下去。每个人的速度都是固定的，但不同人的速度不同。证明或推翻，对于每一个人，总会有一个时刻，他与其他所有人的距离都不小于 1/n
+
+#排序问题加强版
+#有 n 个盒子，从左至右依次编号为 1, 2, …, n 。第 1 个盒子里放两个编号为 n 的小球，第 2 个盒子里放两个编号为 n – 1的小球，以此类推，第 n 个盒子里放两个编号为 1 的小球。每一次，你可以在相邻两个盒子中各取一个小球，交换它们的位置。为了把所有小球放进正确的盒子里，最少需要几次交换？
+
+#多面体的展开
+#证明或推翻，总可以把一个凸多面体沿着棱剪开，展开成一个简单的平面多边形。
+
+#用平面镜拼成的多边形
+# 证明或推翻，对于任意一个内壁全是镜面的多边形，总能在里面找到一个点，使得位于这个点的光源可以照亮整个多边形内部
+
+#Thrackle 猜想
+#如果一个图中，每条边都与其它所有边相交恰好一次（顶点处相接也算相交），这个图就叫做一个 thrackle 。问，是否存在边数大于顶点数的 thrackle 图？
+
+#Venn 图
+#是否随便什么样的 n 个集合的 Venn 图都可以扩展到 n + 1 个集合{的venn图}呢
+
+
+#令 U 是一个有限集，S1 , S2 , … , Sn 都是 U 的非空子集，它们满足任意多个集合的并集仍然在这些集合里。证明，一定能找到某个元素，它出现在了至少一半的集合里。
