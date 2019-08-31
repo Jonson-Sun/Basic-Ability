@@ -42,94 +42,59 @@ end
 #同步与异步演示()
 
 
-
-#using PyPlot
-function 粮食产量()
-	title("美国经济危机")
-	年份=1783:2019
-	危机=[1825,1837,1847,1857,1866,1873,1882,1890,1900,1907, 
-	1920,1921,1929,1930,1931,1932,1933,1937,1938,1948,1949,  
-	1957,1958,1969,1970,1974,1975,1980,1981,1982,1990,1991,2001,2008]
+using PyPlot
+function 串序列转换为正整数(X)
+	newX=[]
+	for item in X
+		push!(newX,parse(Int,item))
+	end
+	return newX
+end
+function 串序列转换为浮点数(Y)
+	newY=[]
+	for item in Y
+		push!(newY,parse(Float32,item))
+	end
+	return newY
+end
+function 数据处理(数据文件名="data.txt",分隔符="\t")
+	数据行=readlines(数据文件名)
+	X=[]
+	Y=[]
+	Y1=[]
+	for 元素 in 数据行
+		x,y,y1=split(元素,分隔符)
+		#三个元素赋值给两个元素的话,多余的元素舍弃
+		push!(X,x)
+		push!(Y,y)
+		push!(Y1,y1)
+	end
+	return X,Y,Y1
+end
+function 差值(Y)
+	newY=[]
+	for i=2:length(Y)
+		push!(newY,(Y[i]-Y[i-1]))
+	end
+	return newY
+end
+function 画图()
+	title("标题:宏观负债率")
+	X,Y,Y1=数据处理()
+	X=串序列转换为浮点数(X)
+	Y=串序列转换为浮点数(Y)
+	Y1=串序列转换为浮点数(Y1)
 	
-	
-	bar(危机,危机)
+	#plot(X,Y,"bo--",label="居民负债率")
+	 plot(X[2:end],差值(Y),label="居民负债变化率")
+	#plot(X,Y1,"r^-",label="实体企业负债率")
+	#plot(X[2:end],差值(Y1),label="企业负债变化率")
+	grid()
 	legend()
 	show()
 end
-#粮食产量()
+画图()
 
-
-#
-#		使用预制的函数来拟合 实际分布
-#1.假设存在一个先天形式;例如:  ax^2+bx+c
-#		1.不假设先验公式又如何?深度学习?
-#		2.
-#2.逐渐缩小先验形式与实际分布的距离:如何度量一条曲线和所有点的距离?
-#		1. 所有样本点(横向距离+纵向距离)/点数
-#		2.
-#3.缩小距离的方式:
-#		1.遍历,随机,
-#
-#
-
-
-#using PyPlot
-function 先验公式(a,b,c,d)
-	result(x)=(a*x^3+b*x^2+c*x+d) #
-	return result
-end
-function 先验公式(a,b,c)
-	result(x)=(a*x^2+b*x+c) #
-	return result
-end
-function 先验公式(a,b)
-	result(x)=(a*x+b)
-	return result
-end
-function 距离测量()end
-function 修正公式参数()end
-function 查看曲线图像()
-	# 验证神经网络是一个多级非线性函数
-	x=rand(Int32,100)
-	#x=1:100
-	k=4
-
-	function 获得随机数(个数) 
-		结果=rand(个数)
-		#@info 结果
-		return 结果; 
-	end
-	for _ in 1:10
-		#@info "$(a),$(b)"
-		a=获得随机数(k)
-		result1=先验公式(a[1],a[2],a[3],a[4])
-		a=获得随机数(k)
-		result2=先验公式(a[1],a[2],a[3],a[4])
-		a=获得随机数(k)
-		result3=先验公式(a[1],a[2],a[3],a[4])
-		a=获得随机数(k)
-		result4=先验公式(a[1],a[2],a[3])
-		a=获得随机数(k)
-		result5=先验公式(a[1],a[2])
-		
-		y=map(result1,x)
-		y=map(result2,y)
-		y=map(result3,y)
-		y=map(result4,y)
-		y=map(result5,y)
-		
-		title("NN猜想验证")
-		#@info x
-		plot(x,"b^-")
-		#@info y
-		plot(y,"ro-")
-		show()
-	end
-end
-function test() 查看曲线图像() end
-#test()
-
-# 为什么x,y十分相似?????
 function stat_Char()
 	#exit=UInt[]
 	#str_vec=Char[]
@@ -154,7 +119,7 @@ end
 #stat_Char()
 
 
-function 图片信息()
+function 图片转md()
 	#	md 的图片信息
 	# ls>>tmp.txt
 	tmp=""
@@ -163,9 +128,8 @@ function 图片信息()
        tmp="![](资本论21/"*item*")<br>"
 	   println(tmp)
     end
-	
 end
-
+#图片转md()
 
 #
 #	使用递归方式的傅立叶函数
@@ -176,25 +140,6 @@ end
 #问题:
 #	如何形成表达式?
 #
-
-"""
-asd=Dict(1=>2,3=>4)
-	for(x,y) in asd
-       @info complex(x,y)
-    end
-
-	sum(Xn*exp(-im*2*pi*k*n/N))
-
-function 表达式(当前深度=0,最大深度=10)
-		当前深度+=1
-		if 当前深度<最大深度
-			
-		end
-		表达式(当前深度)
-	end
-
-
-"""
 function 万能表示函数(深度=10)
 	参数=[] #n
 	for i=1:深度
@@ -212,58 +157,7 @@ end
 
 
 
-function matrix67()
-	table=Dict('1'=>1,'2'=>2,'3'=>3,'4'=>4,'5'=>5,
-			   '6'=>6,'7'=>7,'8'=>8,'9'=>9,'0'=>0)
-	
-	function position_sum()
-		#串化
-		str_tmp=string(num)
-		num=0
-		for iter in str_tmp
-			num+=table[iter]
-		end
-		return num #返回按位加和
-	end
-	function single_calculer()#单步计算
-		if(num%2==0)
-			num=(position_sum())^2
-		else
-			num=(position_sum())^3
-		end
-		return num
-	end
-	function count()#计算次数
-		count_num=0
-		while true
-			num=single_calculer()
-			#@info num
-			if num==1 || count_num>9
-				break
-			end
-			count_num+=1
-		end
-		return count_num
-	end
-	
-	num=10_0000_0000  #488,from2+
-	endp=100_0000_0000
-	calculer=0
-	tmp1=num
-	while(num<endp)  #待检验的数值区间
-		if(num%3!=0 && num%2==0)
-			tmp=count()
-			if tmp>9  @info "异常值: $num ;次数为 $tmp "	end
-		end
-		tmp1+=1
-		num=tmp1
-		if tmp1%((endp-num)/100)==0
-			calculer+=1
-			@info "进度: $calculer % num is $num"
-		end
-	end
-end
-matrix67()
+
 
 #湍流，又称为乱流、紊流或扰流
 #当流速很小时，流体分层流动，互不混合，称为层流
