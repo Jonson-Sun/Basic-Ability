@@ -42,7 +42,7 @@ end
 #同步与异步演示()
 
 
-using PyPlot
+#using PyPlot
 function 串序列转换为正整数(X)
 	newX=[]
 	for item in X
@@ -93,7 +93,7 @@ function 画图()
 	legend()
 	show()
 end
-画图()
+#画图()
 
 function stat_Char()
 	#exit=UInt[]
@@ -151,12 +151,19 @@ function 万能表示函数(深度=10)
 	end
 end
 
-
-
-
-
-
-
+function 特殊符号表()
+	内容=repeat("-|",20)*"\n"*repeat(":-:|",20)*"\n"
+	for i=1:5_0000
+		内容*=string(i)*"|&#"*string(i)*";|"
+		if i%10==0
+			内容*="\n"
+		end
+	end
+	write("符号表.md",内容)
+	@info "运行完成"
+	sleep(5)
+end
+特殊符号表()
 
 
 #湍流，又称为乱流、紊流或扰流

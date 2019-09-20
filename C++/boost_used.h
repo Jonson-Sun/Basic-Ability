@@ -60,11 +60,76 @@ bool fft_model()
 	return true;
 }
 
-
-
-
-
-
+//
+//	计算bigram 
+//	即A->B:概率
+//
+#include<boost/tokenizer.hpp>
+#include<map>
+bool bigram_freq()
+{
+	string filename="/home/asen/Jonson-Sun/baidu_sep.txt";
+	vector<string> lines=readlines(filename);
+	cout<<"!行数为:"<<lines.size()<<endl;
+	map<string,int> word_pair_freq;
+	string key="";
+	int stop_num=1;
+	
+	for(string s : lines){
+		tokenizer<> token_one(s);
+		string before="";
+		for(auto item:token_one){
+			//cout<<item<<" ";
+			//计算频率:
+			if(before!=""){
+				key=before+"#"+item;
+				if(word_pair_freq.count(key)==0){
+					//不存在	
+					word_pair_freq[key]=1;
+				}else{
+					word_pair_freq[key]+=1;
+				}
+			}
+			before=item;
+		}
+		//if(stop_num++ >100)break;
+	}
+	cout<<"词对 数量为:"<<word_pair_freq.size()<<endl;
+	
+	for(auto item:word_pair_freq){
+		string tmp=(item.first)+"\t:\t"+to_string(item.second)+"\n";
+		log_add(tmp);
+	}
+	
+	return true;
+}
+//
+// A->B1,B2,B3......
+//
+bool bigram_words()
+{
+	string filename="/home/asen/Jonson-Sun/baidu_sep.txt";
+	vector<string> lines=readlines(filename);
+	cout<<"!行数为:"<<lines.size()<<endl;
+	multimap<string,string> word_pair;
+	
+	for(string s : lines){
+		tokenizer<> token_one(s);
+		string before="";
+		for(auto item:token_one){
+			//cout<<item<<" ";
+			if(before!="" && word_pair.count(before)==0){
+				word_pair.insert({before,item});//不存在
+			}
+			before=item;
+		}
+	}
+	cout<<"词对 数量为:"<<word_pair.size()<<endl;
+	for(auto& e:word_pair){
+		log_add(e.first+"\t:\t"+e.second+"\n");
+	}
+	return true;
+}
 //
 //	本文件的测试函数
 //
@@ -72,10 +137,11 @@ bool fft_model()
 void test()  
 {
 	timer::auto_cpu_timer t;  //静态编译时启用
-	control();
+	bigram_words();
+	//control();
 	//get_video_url();
 	//猛虎在深山，百兽震恐，及在槛阱之中，摇尾而求食，积威约之渐也...积威约之势也
-	
+	log_add("\n\n 日志结束",true);
 }
 #endif
 
