@@ -136,8 +136,12 @@ bool bigram_words()
 #include <boost/timer/timer.hpp>
 void test()  
 {
+	
+	auto a="alksdfjka";
+	cout<<"typeid used :"<<typeid(a).name()<<endl;
+	return;
 	timer::auto_cpu_timer t;  //静态编译时启用
-	bigram_words();
+	//bigram_words();
 	//control();
 	//get_video_url();
 	//猛虎在深山，百兽震恐，及在槛阱之中，摇尾而求食，积威约之渐也...积威约之势也

@@ -42,94 +42,17 @@ end
 #同步与异步演示()
 
 
-#using PyPlot
-function 串序列转换为正整数(X)
-	newX=[]
-	for item in X
-		push!(newX,parse(Int,item))
-	end
-	return newX
-end
-function 串序列转换为浮点数(Y)
-	newY=[]
-	for item in Y
-		push!(newY,parse(Float32,item))
-	end
-	return newY
-end
-function 数据处理(数据文件名="data.txt",分隔符="\t")
-	数据行=readlines(数据文件名)
-	X=[]
-	Y=[]
-	Y1=[]
-	for 元素 in 数据行
-		x,y,y1=split(元素,分隔符)
-		#三个元素赋值给两个元素的话,多余的元素舍弃
-		push!(X,x)
-		push!(Y,y)
-		push!(Y1,y1)
-	end
-	return X,Y,Y1
-end
-function 差值(Y)
-	newY=[]
-	for i=2:length(Y)
-		push!(newY,(Y[i]-Y[i-1]))
-	end
-	return newY
-end
-function 画图()
-	title("标题:宏观负债率")
-	X,Y,Y1=数据处理()
-	X=串序列转换为浮点数(X)
-	Y=串序列转换为浮点数(Y)
-	Y1=串序列转换为浮点数(Y1)
-	
-	#plot(X,Y,"bo--",label="居民负债率")
-	 plot(X[2:end],差值(Y),label="居民负债变化率")
-	#plot(X,Y1,"r^-",label="实体企业负债率")
-	#plot(X[2:end],差值(Y1),label="企业负债变化率")
-	grid()
-	legend()
-	show()
-end
-#画图()
-
-function stat_Char()
-	#exit=UInt[]
-	#str_vec=Char[]
-	count=0
-	tmp_str=""
-	for i=1:2^32
-		if isvalid(Char,i)
-			#push!(exit,i)
-			#push!(str_vec,Char(i))
-			tmp_str *="$(i) $(Char(i))\n"
-		else
-			#push!(noexit,i)
-			count+=1
-		end
-	end
-	#@info "存在的元素为$(length(exit))"  #111_2063
-	#@info "不存在的元素为$(count)"  #42_9385_5233
-	#@info "最大的元素值为:$(maximum(exit)),$(minimum(exit))"
-	write("utf8.txt",tmp_str)  #14M
-	
-end
-#stat_Char()
+#
+#	使用傅立叶变换进行分词
+#		1.形成 字符,结果->数字化表示 转换
+#		2.形成输入输出数据: 
+#			2384,1903....
+#			0	,1	,....
+#		3.
 
 
-function 图片转md()
-	#	md 的图片信息
-	# ls>>tmp.txt
-	tmp=""
-	str_vec=readlines("tmp.txt")
-	for item in str_vec
-       tmp="![](资本论21/"*item*")<br>"
-	   println(tmp)
-    end
-end
-#图片转md()
+
+
 
 #
 #	使用递归方式的傅立叶函数
@@ -151,19 +74,7 @@ function 万能表示函数(深度=10)
 	end
 end
 
-function 特殊符号表()
-	内容=repeat("-|",20)*"\n"*repeat(":-:|",20)*"\n"
-	for i=1:5_0000
-		内容*=string(i)*"|&#"*string(i)*";|"
-		if i%10==0
-			内容*="\n"
-		end
-	end
-	write("符号表.md",内容)
-	@info "运行完成"
-	sleep(5)
-end
-特殊符号表()
+
 
 
 #湍流，又称为乱流、紊流或扰流

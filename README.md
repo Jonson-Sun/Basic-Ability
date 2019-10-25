@@ -2,7 +2,7 @@
 > 实践与提升(Practice and improve)  
 
 ## 内容介绍:
-- project: 已完成项目归档
+
 -  其他语言	: go语言等其他内容
 - Julia：Julia语言的相关内容
 - Rust ： rust语言相关内容
@@ -15,7 +15,7 @@
 - 如何画流程图？
 	- dot画流程图，模板如下：
 	- 代码：
-```
+```c
 digraph 流程图 {
 	label="流程图名称"
 	bgcolor=wheat
@@ -44,4 +44,12 @@ digraph 流程图 {
 	- firacode:最佳编程字体
 	- inconsolata:漂亮的等宽字体
 	- dejavu:覆盖了unicode 的绝大不部分
+- 对一些语言的评论
+	- 小型和灵活性上, **python** 比java 更胜一筹
+	- windows会继续支持**C#**
+	- 苹果偏爱 **swift**
+	- android 推出 **kotlin**
+	- google用 **go**
+	- **java** 会稳定在对跨平台有严格要求的大型非时时应用上
+	- 
 - 
