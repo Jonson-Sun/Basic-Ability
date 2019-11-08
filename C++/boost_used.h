@@ -130,16 +130,21 @@ bool bigram_words()
 	}
 	return true;
 }
+
+
+
+
 //
 //	本文件的测试函数
 //
 #include <boost/timer/timer.hpp>
 void test()  
 {
-	
+	file_thread();
+
 	auto a="alksdfjka";
 	cout<<"typeid used :"<<typeid(a).name()<<endl;
-	return;
+return;
 	timer::auto_cpu_timer t;  //静态编译时启用
 	//bigram_words();
 	//control();
@@ -152,9 +157,3 @@ void test()
 //include/boost/range/begin.hpp:114:61: 
 //	error: no type named ‘type’ in ‘struct boost::range_iterator
 // no solution
-
-
-
-
-
-

@@ -10,7 +10,7 @@ cc += -Wall  #打开所有的 warning 信息{Warn all}
 cc += -O2   #代码编译优化
 cc =  g++
 cc += -std=c++11
-cc += -static   
+#cc += -static   
 cc += -I /home/asen/boost/include
 cc += -L /home/asen/boost/lib 
 
@@ -29,7 +29,7 @@ project_name = app
 
 
 $(project_name) : $(objects)
-	@$(cc) -o  $(project_name) $(objects) 	$(post_opt)
+	@$(cc) -o  $(project_name) $(objects) 	$(post_opt) -lpthread
 	@notify-send -i "$(icon)" "[make] " "编译成功 !   !   !"
 main.o : main.cpp
 	@$(cc) -c  main.cpp
