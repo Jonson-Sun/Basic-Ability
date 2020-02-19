@@ -63,11 +63,43 @@ function str2BigInt(str::String)
 	#return big"1234645675643523412423123456457"
 end
 
-
-
+using PyPlot
+function 画图()	
+	data1=[1.75,2.35,3.0]
+	sina_debt=[2.449,2.668,2.659,2.834,3.061,3.178,3.743]
+	usa_debt =[1.508,1.587,1.601,1.678,1.800,1.877,2.318]
+	japan_debt=[-0.097,-0.110,-0.135,-0.117,-0.1,-0.006,0.424]
+	de_debt=[-0.692,-0.641,-0.612,-0.531,-0.42,-0.253,0.276]
+	en_debt=[0.597,0.535,0.493,0.564,0.558,0.754,1.256]
+	title("2019-12-29各国债务收益率曲线")
+	xlabel("时间（年）")
+	ylabel("年率")
+	xticks=[1,2,3,5,7,10,30]
+	x=[1,2,3,5,7,10,30]
+	text(20,3.5,"中国国债")
+	text(20,2,"美国国债")
+	text(20,0.3,"日本国债")
+	text(10,-0.5,"德国国债")
+	text(20,1,"英国国债")
+	
+	plot([1,2,3],data1,label="中国利息")
+	plot(x,sina_debt,"or-")
+	plot(x,usa_debt,"^k-")
+	plot(x,japan_debt,"b^--")
+	plot(x,de_debt,"yo--")
+	plot(x,en_debt,"go-")
+	
+	grid() #显示网格
+	legend()
+	show()
+end
 
 function test()
-		
+	
+	画图()
+	
+return true
+	
 	substr("阿三科技的符号i阿斯顿飞呢",3,-2)
 	substr("阿三科技的符号i阿斯顿飞呢",3,7)
 
@@ -78,7 +110,7 @@ function test()
 	@show str2BigInt(str2int_str(asd))
 	@show str2BigInt("123343245e")
 end
-#test()
+test()
 
 
 

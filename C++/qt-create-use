@@ -1,0 +1,89 @@
+/*
+ *The Qt Quick : QML 标准库
+ *The Qt GUI module provides classes for windowing system integration, event handling, OpenGL and
+ *       OpenGL ES integration, 2D graphics, basic imaging, fonts and text
+ *D-Bus is an Inter-Process Communication (IPC) and Remote Procedure Calling (RPC) mechanism
+ *Qt Test : unit testing 
+ *qmake generates a Makefile based on the information in a project file
+ *OpenGL is a standard API for rendering 3D graphics
+ *Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector graphics.
+ *The Qt SCXML module provides functionality to create state machines from SCXML files
+ *
+ *
+ *
+ */
+
+#ifndef WORDDEAL_H
+#define WORDDEAL_H
+
+#include<locale>  //wstring_convert
+#include <codecvt>
+#include <string>
+// this is no test: utf-8 to wstring
+std::wstring s2ws(const std::string& str)
+{
+    using convert_typeX = std::codecvt_utf8<wchar_t>;
+    std::wstring_convert< convert_typeX, wchar_t> converterX;
+
+    return converterX.from_bytes(str);
+}
+
+std::string ws2s(const std::wstring& wstr)
+{
+    using convert_typeX = std::codecvt_utf8<wchar_t>;
+    std::wstring_convert< convert_typeX, wchar_t> converterX;
+
+    return converterX.to_bytes(wstr);
+}
+
+#include <iostream>
+#include<vector>
+using namespace std;
+bool end_call()
+{
+     cout << "Hello World!" << endl;
+    return true;
+}
+#endif // WORDDEAL_H
+
+
+
+
+- ctrl+K : 定位器:搜索框
+F4:在头文件和源文件切换;C++ only
+---
+QML是被设计用来描述用户界面的
+子元素从父元素上继承了坐标系统,它的x,y坐标总是相对应于它的父元素坐标系统
+子元素可以通过访问parent关键字来访问它们的父元素
+---
+命令行运行qml:
+    QTDIR/bin/qmlscene rectangle.qml
+添加自己定义的属性:
+	需要使用property修饰符,然后跟上类型,名字和可选择的初始化值(property
+	使用default关键字你可以将一个属性定义为默认属性
+QML提供了动态作用域的机制,后加载的文档会覆盖之前加载文
+	档的元素id号,这样就可以引用已加载并且没有被覆盖的元素id
+QML与JavaScript是最好的配合
+	定义一个JavaScript函数使用这种格式function (){....}
+属性绑定会在赋值操作后被销毁(销毁协议!(=)
+Item(基本元素对象)通常被用来作为其它元素的容器使用,类似HTML语言中的div元素(div element)
+一个   组件   是一个可以重复使用的元素
+转换操作改变了一个对象的几何状态。QML元素对象通常能够被平移,旋转,缩放
+平移:x += 5;旋转:rotation += 5,缩放:scale -= 0.05
+定位元素:
+	QtQuick模块提供了Row,Column,Grid,Flow用来作为定位器
+	Grid:rows: 2    ,columns: 2,  anchors.centerIn: parent,  spacing: 8
+QML使用anchors(锚)对元素进行布局
+	top顶,bottom底,left左,right右,horizontalCenter水平中,verticalCenter垂直中线
+	anchors.horizontalCenter: parent.horizontalCenter: 中线对齐
+多行文本:TextEdit
+QML是基于元素,属性与脚本的
+在QML中,使用State元素来定义状态,需要与基础元素对象(Item)的states序列属性连接。
+在QtQuick中,数据通过model-view(模型-视图)分离。对于每个view(视图),每个数据元素的可视化都分给一个代理(delegate)
+
+粒子的真正力量也是用来创建游戏
+
+
+内省意味着Qt对象知道它的类名,它与其它类的关系,以及它的方法和属性
+后端开发者由功能驱动,前段开发者由用户场景驱动。
+
