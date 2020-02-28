@@ -6,15 +6,22 @@
 ---
 ##经验
 - 文件操作前先备份！！！！！！！！！
-- 长期运行的程序一定要有进度提示{file,terminal,notify均可}
+- 长期运行的应用程序一定要有进度提示{file,terminal,notify均可}
+	- 长期运行的daemon程序不用
+- 
+---
+##  2020
+
+- \#!/bin/bash 行1:没有该文件或者目录
+	- 转换为不带bom 的utf-8模式
+	- 使用unix;而不是wondows换行
+- 下载的epub电子书文件 是一个目录:
+	- 命令:
+		- $ zip -0Xq  my-book.epub mimetype
+		- $ zip -Xr9Dq my-book.epub *
 - 
 
----
-##  2019
-
-
-
-
+##2019
 - 基本系统操作
 	- / 目录下有61_2999个文件,70678个目录  [不包括无妨问权限的]
 	- last reboot || last shutdown :查看重启,关机日志
