@@ -75,7 +75,113 @@ function 万能表示函数(深度=10)
 end
 
 
+function 随机数生成(c::Channel)
+	while true
+		put!(c,rand())
+	end
+end
+function 计数(随机数管)
+	计数=0
+	加和=0
+	for 随机数 in 随机数管
+		加和+=随机数
+		if 加和>1
+			return 计数
+		end
+		计数+=1
+	end
+end
+function 主函数()
+	随机数管=Channel(随机数生成)
+	单次结果=0
+	结果=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	for i=1:1_0000_000
+		单次结果=计数(随机数管)
+		#print(单次结果)
+		if 0<单次结果<20
+			结果[单次结果]+=1
+		else
+			println(单次结果)
+		end
+	end
+	for i=1:20
+		println(i,"次 : ",结果[i])
+	end
+end
+主函数()
+#====
+1次 : 5000551
+2次 : 3332264
+3次 : 1250392
+4次 : 333559
+5次 : 69379
+6次 : 11836
+7次 : 1766
+8次 : 215
+9次 : 33
+10次 : 4
+11次 : 1
 
+C++重写:
+
+#include<cstdlib>
+#include <QString>
+#include<vector>
+using namespace std;
+double get_rand()
+{
+    double tmp=(rand()%10000) /10000.0;
+    //qDebug()<< tmp; //#include<QDebug>
+    return tmp ;
+}
+unsigned long get_count()
+{
+    vector<double> rand_result(30);
+    unsigned long count=0;
+    double sum=0.0;
+    for(unsigned long j=0;j<30;j++)
+    {
+        rand_result[j]=get_rand();
+    }
+    for(auto iter:rand_result)
+    {
+        if(sum<=1.0){
+            sum+=iter;
+            count++;
+        }
+        else{
+            break;
+        }
+    }
+    return count ;
+}
+void call_other_func(vector<long>& result)
+{
+    /*
+     * 计算x个随机数(0~1)相加后大于1
+     * 的分布及 期望(均值)
+     *
+     *结果:vector<long>& result
+     *
+     *
+     */
+    //srand(123); //get_rand
+    long cishu=1000000;
+
+    for(int i=0;i<cishu;i++){
+        unsigned long tmp=get_count();
+        if(tmp<15)
+            result[tmp]+=1;
+    }
+    double value=0.0;//期望;该结果未返回
+    int i=0;
+    for(auto val:result){
+        value+=(val/1000000.0)*i;
+        i++;
+    }
+}
+
+====#
 
 #湍流，又称为乱流、紊流或扰流
 #当流速很小时，流体分层流动，互不混合，称为层流

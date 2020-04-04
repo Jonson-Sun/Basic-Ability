@@ -23,7 +23,15 @@
 - 清空日志文件：
 	- echo "" > file_name
 	- /var目录下的文件皆可删除
-- 
+- 查看openGL的版本: 
+	- glxinfo : 1.4
+- QT添加boost库?
+	- 头文件在pro中:INCLUDEPATH +=路径
+	- 库文件:路径加到{项目-build-path|lib}
+		- 使用协程库时仍然有问题 fiber出问题
+- 查看二进制文件
+	- vi -b filename
+	- :%!xxd
 - 
 ##2019
 - 基本系统操作
