@@ -1,5 +1,28 @@
 #！ -*- utf8 -*-
 
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+def 数据生成():
+	data=[0.011, 0.013, 0.015, 0.024, 0.036, 0.055, 0.020,0.011, 0.013, 0.015, 0.024, 0.036, 0.055, 0.020,0.011, 0.013, 0.015, 0.024, 0.036, 0.055, 0.020]
+	for i in range(len(data)):
+		yield data[0:i+1]
+		
+def 画gif():
+	ims = []
+	fig = plt.figure()
+	plt.title("chaos's SDIC: ceil-floor")
+	for i in 数据生成():
+		#im = plt.scatter(1,1).findobj()
+		im=plt.plot(i)
+		ims.append(im)
+	ani = animation.ArtistAnimation(fig,ims,interval=200,repeat=True,blit=True,repeat_delay=500)
+	plt.show()
+	ani.save("绘图.gif",writer='pillow')
+	#writer='pillow' html 保存的gif图不再循环显示，show可以
+
+画gif()
+
+#================================
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -50,7 +73,7 @@ def 公式():
 	fig.tight_layout()
 	plt.show()
 	
-公式()
+#公式()
 
 
 

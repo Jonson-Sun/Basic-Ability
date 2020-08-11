@@ -1,6 +1,18 @@
 #!/home/asen/julia110/bin/julia
 
 #================================
+wh=8
+using PyPlot
+
+#plot(qwe1[1:wh],"b^--")
+#plot(qwe2[1:wh],"yo--")
+plot(qwe3[1:wh]-qwe2[1:wh],"ro--")
+show()
+
+
+
+
+
 	多进程和多线程 : still need to do
 
 #using Distributed
@@ -108,7 +120,7 @@ function 主函数()
 		println(i,"次 : ",结果[i])
 	end
 end
-主函数()
+#主函数()
 #====
 1次 : 5000551
 2次 : 3332264

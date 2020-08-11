@@ -63,7 +63,7 @@ function str2BigInt(str::String)
 	#return big"1234645675643523412423123456457"
 end
 
-using PyPlot
+#using PyPlot
 function 画图()	
 	data1=[1.75,2.35,3.0]
 	sina_debt=[2.449,2.668,2.659,2.834,3.061,3.178,3.743]
@@ -93,12 +93,44 @@ function 画图()
 	legend()
 	show()
 end
+#=====================================
+
+
+=====================================#
+function 鸡蛋价格(总价,重量=45)
+	单价每斤=总价/重量;
+	十元重量=10/单价每斤
+	十元售重=十元重量-0.5
+	@info "鸡蛋价 : " 单价每斤 十元重量 十元售重
+end
+#鸡蛋价格(175)
+#=====================================
+
+
+=====================================#
+function 画圆()
+	
+	for 间隔=1:50
+		x=[i for i=0:间隔:2000pi];
+		a=sin.(x);
+		b=cos.(x);
+		plot(a,b,"bo--");
+		title("x=[i for i=0:"*string(间隔)*":2000pi];a=sin.(x);b=cos.(x)")
+		show()
+	end
+end
+#画圆()
+#========================================
+
+			主函数
+
+=======================================#
 
 function test()
 	
 	画图()
 	
-return true
+	return true
 	
 	substr("阿三科技的符号i阿斯顿飞呢",3,-2)
 	substr("阿三科技的符号i阿斯顿飞呢",3,7)
@@ -110,7 +142,7 @@ return true
 	@show str2BigInt(str2int_str(asd))
 	@show str2BigInt("123343245e")
 end
-test()
+#test()
 
 
 

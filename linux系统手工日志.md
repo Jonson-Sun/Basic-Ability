@@ -12,7 +12,14 @@
 - 
 ---
 ##  2020
-
+- ffmpeg视频截取:
+	- ffmpeg -ss 00:00:31 -t 1:00:50 -i 半泽直树4 -vcodec copy -acodec copy output.mp4
+- conda 操作
+	- conda clean -p ： 清楚无用的包和缓冲
+	- conda update conda ： 更新自己
+	- conda install mpmath 失败，网速太慢
+- comma separated values (CSV）
+	- 逗号分割值！！！
 - \#!/bin/bash 行1:没有该文件或者目录
 	- 转换为不带bom 的utf-8模式
 	- 使用unix;而不是wondows换行
@@ -109,7 +116,7 @@ conda安装路径=/lib/python3.6/site-packages/matplotlib/mpl-data/
 1. 4-26:安装uget
 
 1. 3-9：
-	- 文件解锁：sudo chattr -i filenamne
+	- 文件解锁：sudo chattr -i filename
 	- 文件枷锁：sudo chattr +i filename
 	- 查看安装的软件数量：
 		- apt list --installed | wc -l
