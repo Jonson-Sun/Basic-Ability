@@ -1,0 +1,132 @@
+
+
+
+#设置编译命令  
+#		 -g  调试选项
+#		 -lpthread   多线程选项
+#       -static ： 静态链接 
+#       -shared -fpic：动态连接(默认)  适合大型项目
+cc = g++ 
+cc += -std=c++11
+cc += -O2 
+cc += -static
+
+#设置中间文件 名, 所有的  *.o文件;文件太多,使用 "\" 分解为多行
+objects = main.o
+
+#设置最终可执行文件名
+project_name = 应用.out
+
+
+
+
+
+
+$(project_name) : $(objects)
+	@$(cc) -o  $(project_name) $(objects) 
+	@echo 编译成功 !   !   !
+
+#源文件中已经有完好的依赖,可以忽略*.h;如下面的head.h
+main.o : main.cpp head.h
+	@$(cc) -c  main.cpp
+	@echo main.o编译完成
+
+#cpointer.o : text_deal.h	#默认包含 cpointer.c
+#	$(cc) -c text_deal.h 
+
+#下面 两行  为一条规则,可以有多个命令行
+#example2.0 : example2.h  #  目标 : 依赖
+#	$(cc) -c example2.h           #   [tab]命令
+
+
+
+
+
+
+#伪目标声明,防止本地存在同名文件,导致命令无法执行
+.PHONY : clean  cla run
+
+run :
+	./$(project_name)
+	@echo 项目运行完毕
+clean :
+	@rm -f *.o
+	@echo 所有.o文件清理完毕
+cla :
+	@rm -f *.o
+	@rm $(project_name)
+	@echo  "所有编译文件清理完毕 \n  可以重新编译该项目"
+#rm edit $(objects)  #与cla同样效果的命令
+
+
+
+
+
+
+
+
+#################################################
+#
+#				make以及makefile相关介绍
+#
+#################################################
+#make工具主要被用来进行工程编译和程序链接。
+
+# 在Makefile中的命令，必须要以[Tab]键开始
+
+#  包含其他的makefile文件: include  path/filename
+
+# 命令之前加"-" : 表示忽略命令执行错误,继续执行
+#		[tab]-mkdir asd   #即使创建目录asd失败,也继续运行
+
+# 存在一个环境变量MAKEFILES ,所有的make执行都会受影响,
+#		执行异常可以检查该变量
+#		变量“MAKEFILES”主要用在“make”的递归调用过程中的的通信
+
+#Linux中静态库文件的后缀为“.a”使用“ar”工具维护和管理静态库。
+#		一个静态库通常由多个成员（.o文件）组成
+
+#make通过比较对应文件（规则的目标和依赖，）的最后修改时间，
+#		来决定哪些文件需要更新、那些文件不需要更新
+
+#关键字“vpath”指定的搜索目录
+
+#[tab]	@echo 编译完成   # 添加@则不会显示echo,只有"编译完成"现实
+
+#make -n : 显示要执行的命令,但并不执行
+
+#make -j 4  : 可同时执行4条命令,优点加快编译速度,缺点:输出凌乱,难以纠错
+#		适用场景: 非第一次编译
+#		windows没有该选项
+
+#变量(又称:宏) 可以嵌套 :$($(asd))
+
+#条件执行
+#ifeq ($(cc),gcc)
+# 		$(CC) -o foo $(objects) $(libs_for_gcc)
+#else
+#		$(CC) -o foo $(objects) $(other_libs)
+#endif
+#其他关键字: ifneq,ifdef,ifndef,define,endef,vpath,export,unexport
+#			override,subst,patsubst,strip,findstring,filter,filter-out,sort,
+#			word,words,wordlist,firstword,dir,notdir,suffix,basename,
+#			addsuffix,addprefix,join,wildcard,
+#			
+
+
+#函数: 
+#调用方式:$(函数名,参数1,参数2,参数3)
+#字符串函数,if ,foreach,call,value,eval,origin,shell,error,warning
+
+#制定makefile文件: make -f  filename.txt
+
+#除以.开头的,第一个规则的第一个目标即为  终极目标
+
+#make的过程不应该以任何方式修改源代码，或者改变源代码目录的结构。
+
+#configure 和makefile文件使用的命令:
+#		 cat cmp cp diff echo egrep expr false grep install-info
+#		 ln ls mkdir mv pwd rm rmdir sed sleep sort tar test touch true
+# 		gzip
+
+# 本笔记来源:     徐海兵 Gun make 中文手册 2004-9-11 ver 3-8
